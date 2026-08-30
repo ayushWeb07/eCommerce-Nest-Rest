@@ -7,7 +7,7 @@ export interface ProductFilters {
   isAvailable?: boolean;
 }
 
-export interface ProductRepositoryPort {
+export interface ProductRepository {
   save(product: Product): Promise<void>;
   findById(productId: ProductIdVo): Promise<Product | null>;
   findAll(productFilters: ProductFilters): Promise<Product[]>;

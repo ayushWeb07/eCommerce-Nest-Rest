@@ -48,7 +48,8 @@ export class Product extends AggregateRoot {
   static create(
     name: string,
     description: string,
-    price: number,
+    priceAmount: number,
+    priceCurrency: string,
     sku: string,
     stock: number,
     lowStockThreshold: number,
@@ -61,7 +62,7 @@ export class Product extends AggregateRoot {
     const skuVo = SkuVo.create(sku);
 
     // create the price vo
-    const priceVo = MoneyVo.create(price);
+    const priceVo = MoneyVo.create(priceAmount, priceCurrency);
 
     // get the current date for created at and updated at dates
     const currentDate = new Date();
