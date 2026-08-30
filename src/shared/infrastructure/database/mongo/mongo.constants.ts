@@ -1,0 +1,1 @@
+export const MONGO_PROVIDER_TOKEN = 'MONGO_PROVIDER';
