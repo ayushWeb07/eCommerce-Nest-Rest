@@ -25,7 +25,7 @@ export class CreateProductDto {
 
   @IsString()
   @IsNotEmpty()
-  @Length(15)
+  @Length(15, 15, { message: 'Product sku must be exactly 15 characters long' })
   sku: string;
 
   @IsDefined()
@@ -35,7 +35,9 @@ export class CreateProductDto {
 
   @IsString()
   @IsNotEmpty()
-  @Length(3)
+  @Length(3, 3, {
+    message: 'Product price currency must be exactly 3 characters long',
+  })
   priceCurrency: string;
 
   @IsDefined()

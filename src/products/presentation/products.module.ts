@@ -6,6 +6,7 @@ import { PRODUCT_REPOSITORY_TOKEN } from '../application/ports/product.repositor
 import DrizzleProductRepository from '../intrastructure/adapters/drizzle-product.repository';
 import { CreateProductHandler } from '../application/use-cases/create-product/create-product.handler';
 import { DrizzleModule } from '../../shared/infrastructure/database/drizzle/drizzle.module';
+import { FindAllProductsHandler } from '../application/use-cases/find-all-products/find-all-products.handler';
 
 @Module({
   imports: [CqrsModule, DrizzleModule],
@@ -17,6 +18,7 @@ import { DrizzleModule } from '../../shared/infrastructure/database/drizzle/driz
       useClass: DrizzleProductRepository,
     },
     CreateProductHandler,
+    FindAllProductsHandler,
   ],
 })
 export class ProductsModule {}
