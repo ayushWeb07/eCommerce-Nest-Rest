@@ -5,6 +5,7 @@ import { CreateProductCommand } from '../../application/use-cases/create-product
 import { FindAllProductsDto } from '../dtos/find-all-products.dto';
 import { FindAllProductsQuery } from '../../application/use-cases/find-all-products/find-all-products.query';
 import { Product } from '../../domain/entities/product.entity';
+import { ProductResponseDto } from '../dtos/product-response.dto';
 
 @Injectable()
 export class ProductsService {
@@ -31,7 +32,7 @@ export class ProductsService {
 
   async findAllProducts(
     findAllProductsDto: FindAllProductsDto,
-  ): Promise<Product[]> {
+  ): Promise<ProductResponseDto[]> {
     // execute the find all products query
     const fetchedProducts: Product[] = await this.queryBus.execute(
       new FindAllProductsQuery(
@@ -41,6 +42,9 @@ export class ProductsService {
       ),
     );
 
-    return fetchedProducts;
+    // convert them from product entities to product response dto
+    return fetchedProducts.map((prod: Product): ProductResponseDto =>
+      ProductResponseDto.fromDomainEntity(prod),
+    );
   }
 }

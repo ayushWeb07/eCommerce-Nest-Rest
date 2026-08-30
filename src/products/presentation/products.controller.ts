@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './services/products.service';
 import { CreateProductDto } from './dtos/create-product.dto';
-import { Product } from '../domain/entities/product.entity';
 import { FindAllProductsDto } from './dtos/find-all-products.dto';
+import { ProductResponseDto } from './dtos/product-response.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -32,7 +32,7 @@ export class ProductsController {
   @HttpCode(HttpStatus.OK)
   async findAllProducts(@Query() findAllProductsDto: FindAllProductsDto) {
     // call the find all products service
-    const fetchedProducts: Product[] =
+    const fetchedProducts: ProductResponseDto[] =
       await this.productsService.findAllProducts(findAllProductsDto);
 
     return {

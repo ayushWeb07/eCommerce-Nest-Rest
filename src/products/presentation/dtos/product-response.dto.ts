@@ -17,7 +17,7 @@ export class ProductResponseDto {
   createdAt: string;
   updatedAt: string;
 
-  fromDomainEntity(product: Product): ProductResponseDto {
+  static fromDomainEntity(product: Product): ProductResponseDto {
     // create the dto entity and assign corresponding properties
     const productDto = new ProductResponseDto();
 
