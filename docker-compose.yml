@@ -1,0 +1,26 @@
+services:
+  mongo:
+    image: mongo
+    container_name: ecommerce-nest-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  postgres:
+    image: postgres
+    container_name: ecommerce-nest-postgres
+    restart: unless-stopped
+    ports:
+      - "5436:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root123
+      POSTGRES_DB: ecommerce-drizzle-db
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+volumes:
+  mongo_data:
+  postgres_data:
