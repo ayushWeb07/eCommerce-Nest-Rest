@@ -86,52 +86,52 @@ export class Product extends AggregateRoot {
   }
 
   // id getter
-  getId(): ProductIdVo {
+  get id(): ProductIdVo {
     return this._id;
   }
 
   // name getter
-  getName(): string {
+  get name(): string {
     return this._name;
   }
 
   // description getter
-  getDescription(): string {
+  get description(): string {
     return this._description;
   }
 
   // price getter
-  getPrice(): MoneyVo {
+  get price(): MoneyVo {
     return this._price;
   }
 
   // sku getter
-  getSku(): SkuVo {
+  get sku(): SkuVo {
     return this._sku;
   }
 
   // stock getter
-  getStock(): number {
+  get stock(): number {
     return this._stock;
   }
 
   // low stock threshold getter
-  getLowStockThreshold(): number {
+  get lowStockThreshold(): number {
     return this._lowStockThreshold;
   }
 
   // is available getter
-  getIsAvailable(): boolean {
+  get isAvailable(): boolean {
     return this._isAvailable;
   }
 
   // created at getter
-  getCreatedAt(): Date {
+  get createdAt(): Date {
     return this._createdAt;
   }
 
   // updated at getter
-  getUpdatedAt(): Date {
+  get updatedAt(): Date {
     return this._updatedAt;
   }
 }
