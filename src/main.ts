@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { ApplicationExceptionFilter } from './shared/infrastructure/filters/application-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // register the global exception filter
+  app.useGlobalFilters(new ApplicationExceptionFilter());
 
   await app.listen(process.env.SERVER_PORT ?? 3000);
 }

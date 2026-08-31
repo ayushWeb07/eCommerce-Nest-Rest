@@ -7,6 +7,8 @@ import { MongoModule } from './shared/infrastructure/database/mongo/mongo.module
 import { DrizzleModule } from './shared/infrastructure/database/drizzle/drizzle.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ProductsModule } from './products/presentation/products.module';
+import { APP_FILTER } from '@nestjs/core';
+import { ApplicationExceptionFilter } from './shared/infrastructure/filters/application-exception.filter';
 
 @Module({
   imports: [
@@ -19,6 +21,12 @@ import { ProductsModule } from './products/presentation/products.module';
     MongoModule,
     DrizzleModule,
     ProductsModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: ApplicationExceptionFilter,
+    },
   ],
 })
 export class AppModule {}

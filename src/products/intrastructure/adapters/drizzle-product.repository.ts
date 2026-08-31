@@ -74,6 +74,18 @@ class DrizzleProductRepository implements ProductRepository {
     return DrizzleProductRepository.toDomainEntity(fetchedProduct);
   }
 
+  async findBySku(sku: SkuVo): Promise<Product | null> {
+    // query the product from the db
+    const [fetchedProduct] = await this.db
+      .select()
+      .from(products)
+      .where(eq(products.sku, sku.getValue()));
+
+    if (!fetchedProduct) return null;
+
+    return DrizzleProductRepository.toDomainEntity(fetchedProduct);
+  }
+
   private static toDrizzleSchema(product: Product): SelectProductType {
     return {
       id: product.id.getValue(),
