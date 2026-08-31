@@ -19,9 +19,8 @@ export class CreateProductHandler implements ICommandHandler<CreateProductComman
 
   async execute(command: CreateProductCommand): Promise<void> {
     // check if a product with this sku already exists
-    const existingProduct = await this.productRepository.findBySku(
-      SkuVo.create(command.sku),
-    );
+    const existingProduct: Product | null =
+      await this.productRepository.findBySku(SkuVo.create(command.sku));
 
     if (existingProduct) {
       throw new ApplicationException(

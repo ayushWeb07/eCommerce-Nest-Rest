@@ -6,6 +6,8 @@ import { FindAllProductsDto } from '../dtos/find-all-products.dto';
 import { FindAllProductsQuery } from '../../application/use-cases/find-all-products/find-all-products.query';
 import { Product } from '../../domain/entities/product.entity';
 import { ProductResponseDto } from '../dtos/product-response.dto';
+import { FindProductByIdDto } from '../dtos/find-product-by-id.dto';
+import { FindProductByIdQuery } from '../../application/use-cases/find-product-by-id/find-product-by-id.query';
 
 @Injectable()
 export class ProductsService {
@@ -46,5 +48,17 @@ export class ProductsService {
     return fetchedProducts.map((prod: Product): ProductResponseDto =>
       ProductResponseDto.fromDomainEntity(prod),
     );
+  }
+
+  async findProductById(
+    findProductByIdDto: FindProductByIdDto,
+  ): Promise<ProductResponseDto> {
+    // execute the find product by id query
+    const fetchedProduct: Product = await this.queryBus.execute(
+      new FindProductByIdQuery(findProductByIdDto.id),
+    );
+
+    // convert them from product entity to product response dto
+    return ProductResponseDto.fromDomainEntity(fetchedProduct);
   }
 }

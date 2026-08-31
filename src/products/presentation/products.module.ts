@@ -7,6 +7,7 @@ import DrizzleProductRepository from '../intrastructure/adapters/drizzle-product
 import { CreateProductHandler } from '../application/use-cases/create-product/create-product.handler';
 import { DrizzleModule } from '../../shared/infrastructure/database/drizzle/drizzle.module';
 import { FindAllProductsHandler } from '../application/use-cases/find-all-products/find-all-products.handler';
+import { FindProductByIdHandler } from '../application/use-cases/find-product-by-id/find-product-by-id.handler';
 
 @Module({
   imports: [CqrsModule, DrizzleModule],
@@ -19,6 +20,7 @@ import { FindAllProductsHandler } from '../application/use-cases/find-all-produc
     },
     CreateProductHandler,
     FindAllProductsHandler,
+    FindProductByIdHandler,
   ],
 })
 export class ProductsModule {}

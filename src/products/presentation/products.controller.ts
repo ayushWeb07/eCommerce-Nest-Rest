@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Query,
 } from '@nestjs/common';
@@ -11,6 +12,11 @@ import { ProductsService } from './services/products.service';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { FindAllProductsDto } from './dtos/find-all-products.dto';
 import { ProductResponseDto } from './dtos/product-response.dto';
+import { FindProductByIdDto } from './dtos/find-product-by-id.dto';
+import {
+  ApplicationException,
+  ApplicationExceptionStatus,
+} from '../../shared/domain/exceptions/application.exception';
 
 @Controller('products')
 export class ProductsController {
@@ -37,8 +43,22 @@ export class ProductsController {
 
     return {
       success: true,
-      message: 'Successfully created the new product',
+      message: 'Successfully fetched all the products',
       data: fetchedProducts,
+    };
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async findProductById(@Param() findProductByIdDto: FindProductByIdDto) {
+    // call the find by id product service
+    const fetchedProduct: ProductResponseDto =
+      await this.productsService.findProductById(findProductByIdDto);
+
+    return {
+      success: true,
+      message: 'Successfully fetched the product by id',
+      data: fetchedProduct,
     };
   }
 }

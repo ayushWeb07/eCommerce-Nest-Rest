@@ -13,7 +13,7 @@ export class FindAllProductsHandler implements IQueryHandler<FindAllProductsQuer
   ) {}
 
   async execute(query: FindAllProductsQuery): Promise<Product[]> {
-    // create the product using the products repo
+    // fetch the products using the products repo
     const fetchedProducts: Product[] = await this.productRepository.findAll({
       minPrice: query.minPrice,
       maxPrice: query.maxPrice,
