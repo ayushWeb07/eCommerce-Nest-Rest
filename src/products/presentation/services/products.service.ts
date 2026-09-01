@@ -10,6 +10,8 @@ import { FindProductByIdDto } from '../dtos/find-product-by-id.dto';
 import { FindProductByIdQuery } from '../../application/use-cases/find-product-by-id/find-product-by-id.query';
 import { DeleteProductByIdDto } from '../dtos/delete-product-by-id.dto';
 import { DeleteProductByIdCommand } from '../../application/use-cases/delete-product-by-id/delete-product-by-id.command';
+import { UpdateProductDto } from '../dtos/update-product.dto';
+import { UpdateProductCommand } from '../../application/use-cases/update-product/update-product.command';
 
 @Injectable()
 export class ProductsService {
@@ -68,6 +70,23 @@ export class ProductsService {
     // execute the delete product command
     await this.commandBus.execute(
       new DeleteProductByIdCommand(deleteProductByIdDto.id),
+    );
+  }
+
+  async updateProduct(updateProductDto: UpdateProductDto) {
+    // execute the update product command
+    await this.commandBus.execute(
+      new UpdateProductCommand(
+        updateProductDto.id,
+        updateProductDto?.name,
+        updateProductDto?.description,
+        updateProductDto?.sku,
+        updateProductDto?.priceAmount,
+        updateProductDto?.priceCurrency,
+        updateProductDto?.stock,
+        updateProductDto?.lowStockThreshold,
+        updateProductDto?.isAvailable,
+      ),
     );
   }
 }

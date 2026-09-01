@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import {
   ApplicationExceptionStatus,
 } from '../../shared/domain/exceptions/application.exception';
 import { DeleteProductByIdDto } from './dtos/delete-product-by-id.dto';
+import { UpdateProductDto } from './dtos/update-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -73,6 +75,18 @@ export class ProductsController {
     return {
       success: true,
       message: 'Successfully deleted the product by id',
+    };
+  }
+
+  @Patch()
+  @HttpCode(HttpStatus.OK)
+  async updateProduct(@Body() updateProductDto: UpdateProductDto) {
+    // call the update product service
+    await this.productsService.updateProduct(updateProductDto);
+
+    return {
+      success: true,
+      message: 'Successfully updated the product by id',
     };
   }
 }

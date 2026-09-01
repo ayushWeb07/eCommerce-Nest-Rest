@@ -79,6 +79,14 @@ class DrizzleProductRepository implements ProductRepository {
     await this.db.delete(products).where(eq(products.id, productId.getValue()));
   }
 
+  async update(product: Product): Promise<void> {
+    // update the product from the db
+    await this.db
+      .update(products)
+      .set(DrizzleProductRepository.toDrizzleSchema(product))
+      .where(eq(products.id, product.id.getValue()));
+  }
+
   async findBySku(sku: SkuVo): Promise<Product | null> {
     // query the product from the db
     const [fetchedProduct] = await this.db

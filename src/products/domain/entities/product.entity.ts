@@ -54,9 +54,10 @@ export class Product extends AggregateRoot {
     stock: number,
     lowStockThreshold: number,
     isAvailable: boolean,
+    id?: string,
   ) {
     // create the product id vo
-    const productIdVo = new ProductIdVo(uuidv4());
+    const productIdVo = new ProductIdVo(id ?? uuidv4());
 
     // create the sku vo
     const skuVo = SkuVo.create(sku);
