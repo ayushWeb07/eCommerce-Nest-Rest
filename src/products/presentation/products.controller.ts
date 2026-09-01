@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -17,6 +18,7 @@ import {
   ApplicationException,
   ApplicationExceptionStatus,
 } from '../../shared/domain/exceptions/application.exception';
+import { DeleteProductByIdDto } from './dtos/delete-product-by-id.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -59,6 +61,18 @@ export class ProductsController {
       success: true,
       message: 'Successfully fetched the product by id',
       data: fetchedProduct,
+    };
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  async deleteProductById(@Param() deleteProductByIdDto: DeleteProductByIdDto) {
+    // call the delete product by id service
+    await this.productsService.deleteProductById(deleteProductByIdDto);
+
+    return {
+      success: true,
+      message: 'Successfully deleted the product by id',
     };
   }
 }

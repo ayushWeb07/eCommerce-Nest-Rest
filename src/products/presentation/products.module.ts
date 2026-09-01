@@ -8,6 +8,7 @@ import { CreateProductHandler } from '../application/use-cases/create-product/cr
 import { DrizzleModule } from '../../shared/infrastructure/database/drizzle/drizzle.module';
 import { FindAllProductsHandler } from '../application/use-cases/find-all-products/find-all-products.handler';
 import { FindProductByIdHandler } from '../application/use-cases/find-product-by-id/find-product-by-id.handler';
+import { DeleteProductByIdHandler } from '../application/use-cases/delete-product-by-id/delete-product-by-id.handler';
 
 @Module({
   imports: [CqrsModule, DrizzleModule],
@@ -21,6 +22,7 @@ import { FindProductByIdHandler } from '../application/use-cases/find-product-by
     CreateProductHandler,
     FindAllProductsHandler,
     FindProductByIdHandler,
+    DeleteProductByIdHandler,
   ],
 })
 export class ProductsModule {}

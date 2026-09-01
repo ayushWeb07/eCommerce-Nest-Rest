@@ -8,6 +8,8 @@ import { Product } from '../../domain/entities/product.entity';
 import { ProductResponseDto } from '../dtos/product-response.dto';
 import { FindProductByIdDto } from '../dtos/find-product-by-id.dto';
 import { FindProductByIdQuery } from '../../application/use-cases/find-product-by-id/find-product-by-id.query';
+import { DeleteProductByIdDto } from '../dtos/delete-product-by-id.dto';
+import { DeleteProductByIdCommand } from '../../application/use-cases/delete-product-by-id/delete-product-by-id.command';
 
 @Injectable()
 export class ProductsService {
@@ -60,5 +62,12 @@ export class ProductsService {
 
     // convert them from product entity to product response dto
     return ProductResponseDto.fromDomainEntity(fetchedProduct);
+  }
+
+  async deleteProductById(deleteProductByIdDto: DeleteProductByIdDto) {
+    // execute the delete product command
+    await this.commandBus.execute(
+      new DeleteProductByIdCommand(deleteProductByIdDto.id),
+    );
   }
 }
