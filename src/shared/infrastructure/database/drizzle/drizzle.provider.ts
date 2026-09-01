@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { IDatabaseConfig } from '../../../../config/interfaces/database_config.interface';
 import { Pool } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
+import * as schema from './schemas/index';
 
 export const drizzleProvider = {
   provide: DRIZZLE_PROVIDER_TOKEN,
@@ -22,7 +23,7 @@ export const drizzleProvider = {
 
     return drizzle({
       client: pool,
-      schema: {},
+      schema,
     });
   },
 };
