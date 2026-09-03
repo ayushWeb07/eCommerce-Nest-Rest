@@ -37,7 +37,7 @@ export class UpdateCustomerHandler implements ICommandHandler<UpdateCustomerComm
     const customerToBeUpdated = Customer.create(
       command.firstName ?? existingCustomer.firstName,
       command.lastName ?? existingCustomer.lastName,
-      command.email ?? existingCustomer.email.getValue(),
+      existingCustomer.email.getValue(),
       command.phone ?? existingCustomer.phone,
       command.isActive ?? existingCustomer.isActive,
       command.id,

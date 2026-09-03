@@ -3,6 +3,7 @@ import {
   IsDefined,
   IsEmail,
   IsNotEmpty,
+  IsPhoneNumber,
   IsString,
   MaxLength,
   MinLength,
@@ -29,6 +30,7 @@ export class CreateCustomerDto {
 
   @IsString()
   @IsNotEmpty()
+  @IsPhoneNumber('IN')
   @MinLength(10)
   @MaxLength(20)
   phone: string;

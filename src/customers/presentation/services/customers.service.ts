@@ -63,7 +63,6 @@ export class CustomersService {
         updateCustomerDto.id,
         updateCustomerDto?.firstName,
         updateCustomerDto?.lastName,
-        updateCustomerDto?.email,
         updateCustomerDto?.phone,
         updateCustomerDto?.isActive,
       ),
