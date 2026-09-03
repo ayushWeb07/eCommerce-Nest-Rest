@@ -9,6 +9,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ProductsModule } from './products/presentation/products.module';
 import { APP_FILTER } from '@nestjs/core';
 import { ApplicationExceptionFilter } from './shared/infrastructure/filters/application-exception.filter';
+import { CustomersModule } from './customers/presentation/customers.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ApplicationExceptionFilter } from './shared/infrastructure/filters/appl
     MongoModule,
     DrizzleModule,
     ProductsModule,
+    CustomersModule,
   ],
   providers: [
     {
