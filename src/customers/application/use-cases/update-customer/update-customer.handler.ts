@@ -3,8 +3,6 @@ import { UpdateCustomerCommand } from './update-customer.command';
 import { Inject } from '@nestjs/common';
 import { CUSTOMER_REPOSITORY_TOKEN } from '../../ports/customer.repository.constants';
 import type { CustomerRepository } from '../../ports/customer.repository.port';
-import { ProductIdVo } from '../../../../products/domain/value-objects/product-id.vo';
-import { Product } from '../../../../products/domain/entities/product.entity';
 import {
   ApplicationException,
   ApplicationExceptionStatus,

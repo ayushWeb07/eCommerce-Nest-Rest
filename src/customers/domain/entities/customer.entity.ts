@@ -2,6 +2,7 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import { CustomerIdVo } from '../value-objects/customer-id.vo';
 import { EmailVo } from '../value-objects/email.vo';
 import { v4 as uuidv4 } from 'uuid';
+import { CustomerRegisteredEvent } from '../events/customer-registered.event';
 
 export interface ICustomerProps {
   id: CustomerIdVo;
@@ -55,7 +56,8 @@ export class Customer extends AggregateRoot {
     // get the current date for created at and updated at dates
     const currentDate = new Date();
 
-    return new Customer({
+    // create the new customer instance
+    const registeredCustomer = new Customer({
       id: customerIdVo,
       firstName,
       lastName,
@@ -65,6 +67,17 @@ export class Customer extends AggregateRoot {
       createdAt: currentDate,
       updatedAt: currentDate,
     });
+
+    // dispatch the register customer event
+    registeredCustomer.apply(
+      new CustomerRegisteredEvent(
+        registeredCustomer.id.getValue(),
+        registeredCustomer.firstName,
+        registeredCustomer.email.getValue(),
+      ),
+    );
+
+    return registeredCustomer;
   }
 
   // to be used from database layer

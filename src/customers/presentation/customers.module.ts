@@ -10,6 +10,8 @@ import { UpdateCustomerHandler } from '../application/use-cases/update-customer/
 import { DeleteCustomerByIdHandler } from '../application/use-cases/delete-customer-by-id/delete-customer-by-id.handler';
 import { CustomersController } from './customers.controller';
 import { CustomersService } from './services/customers.service';
+import { NOTIFICATION_SERVICE_TOKEN } from '../application/ports/notification.constants';
+import ConsoleLoggerNotification from '../infrastructure/adapters/console-logger.notification';
 
 @Module({
   imports: [CqrsModule, DrizzleModule],
@@ -18,6 +20,10 @@ import { CustomersService } from './services/customers.service';
     {
       provide: CUSTOMER_REPOSITORY_TOKEN,
       useClass: DrizzleCustomerRepository,
+    },
+    {
+      provide: NOTIFICATION_SERVICE_TOKEN,
+      useClass: ConsoleLoggerNotification,
     },
 
     CustomersService,

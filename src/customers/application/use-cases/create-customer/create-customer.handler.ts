@@ -1,4 +1,4 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { CreateCustomerCommand } from './create-customer.command';
 import { Inject } from '@nestjs/common';
 import { CUSTOMER_REPOSITORY_TOKEN } from '../../ports/customer.repository.constants';
@@ -15,6 +15,7 @@ export class CreateCustomerHandler implements ICommandHandler<CreateCustomerComm
   constructor(
     @Inject(CUSTOMER_REPOSITORY_TOKEN)
     private readonly customerRepository: CustomerRepository,
+    private readonly eventPublisher: EventPublisher,
   ) {}
 
   async execute(command: CreateCustomerCommand): Promise<void> {
@@ -29,16 +30,21 @@ export class CreateCustomerHandler implements ICommandHandler<CreateCustomerComm
       );
     }
 
-    // create the customer domain entity
-    const newCustomer = Customer.create(
-      command.firstName,
-      command.lastName,
-      command.email,
-      command.phone,
-      command.isActive,
+    // create the customer domain entity and wrap it with merge context, to make it capable of dispatching events
+    const newCustomer = this.eventPublisher.mergeObjectContext(
+      Customer.create(
+        command.firstName,
+        command.lastName,
+        command.email,
+        command.phone,
+        command.isActive,
+      ),
     );
 
     // create the customer using the customers repo
     await this.customerRepository.save(newCustomer);
+
+    // finally dispatch all the outstanding events
+    newCustomer.commit();
   }
 }
