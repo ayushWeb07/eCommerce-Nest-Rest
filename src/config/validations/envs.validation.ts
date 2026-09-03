@@ -5,4 +5,5 @@ export default Joi.object({
   MONGO_URI: Joi.string().required(),
   MONGO_DB_NAME: Joi.string().required(),
   DRIZZLE_URI: Joi.string().required(),
+  USE_DB: Joi.string().valid('postgres', 'mongo').required(),
 });

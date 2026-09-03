@@ -10,16 +10,42 @@ import { FindAllProductsHandler } from '../application/use-cases/find-all-produc
 import { FindProductByIdHandler } from '../application/use-cases/find-product-by-id/find-product-by-id.handler';
 import { DeleteProductByIdHandler } from '../application/use-cases/delete-product-by-id/delete-product-by-id.handler';
 import { UpdateProductHandler } from '../application/use-cases/update-product/update-product.handler';
+import { ConfigService } from '@nestjs/config';
+import { IDatabaseConfig } from '../../config/interfaces/database_config.interface';
+import MongoProductRepository from '../intrastructure/adapters/mongo-product.repository';
 
 @Module({
   imports: [CqrsModule, DrizzleModule],
   controllers: [ProductsController],
   providers: [
-    ProductsService,
+    DrizzleProductRepository,
+    MongoProductRepository,
+
     {
       provide: PRODUCT_REPOSITORY_TOKEN,
-      useClass: DrizzleProductRepository,
+      inject: [ConfigService, DrizzleProductRepository, MongoProductRepository],
+      useFactory: (
+        configService: ConfigService,
+        drizzleRepo: DrizzleProductRepository,
+        mongoRepo: MongoProductRepository,
+      ) => {
+        // get the database config
+        const databaseConfig = configService.get<IDatabaseConfig>('database');
+
+        if (!databaseConfig) {
+          throw new Error('Database configuration must be setup');
+        }
+
+        // conditionally use the repository based on env
+        if (databaseConfig.useDb === 'postgres') {
+          return drizzleRepo;
+        } else {
+          return mongoRepo;
+        }
+      },
     },
+
+    ProductsService,
     CreateProductHandler,
     FindAllProductsHandler,
     FindProductByIdHandler,
