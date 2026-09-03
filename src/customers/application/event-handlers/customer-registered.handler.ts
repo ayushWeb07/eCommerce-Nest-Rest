@@ -11,9 +11,9 @@ export class CustomerRegisteredHandler implements IEventHandler<CustomerRegister
     private readonly notificationService: NotificationPort,
   ) {}
 
-  handle(event: CustomerRegisteredEvent) {
-    this.notificationService.sendNotification({
-      recipient: event.email,
+  async handle(event: CustomerRegisteredEvent): Promise<void> {
+    await this.notificationService.sendNotification({
+      customerId: event.id,
       subject: `${event.firstName} registered as customer`,
       message: `Customer with name ${event.firstName} and id ${event.id}, has been successfully registered`,
     });

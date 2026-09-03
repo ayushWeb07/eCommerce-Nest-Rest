@@ -1,9 +1,9 @@
 export interface INotificationProps {
-  recipient: string;
+  customerId: string;
   subject: string;
   message: string;
 }
 
 export interface NotificationPort {
-  sendNotification(props: INotificationProps): void;
+  sendNotification(props: INotificationProps): Promise<void>;
 }

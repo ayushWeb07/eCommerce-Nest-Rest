@@ -12,6 +12,7 @@ import { CustomersController } from './customers.controller';
 import { CustomersService } from './services/customers.service';
 import { NOTIFICATION_SERVICE_TOKEN } from '../application/ports/notification.constants';
 import ConsoleLoggerNotification from '../infrastructure/adapters/console-logger.notification';
+import { CustomerRegisteredHandler } from '../application/event-handlers/customer-registered.handler';
 
 @Module({
   imports: [CqrsModule, DrizzleModule],
@@ -32,6 +33,7 @@ import ConsoleLoggerNotification from '../infrastructure/adapters/console-logger
     FindCustomerByIdHandler,
     UpdateCustomerHandler,
     DeleteCustomerByIdHandler,
+    CustomerRegisteredHandler,
   ],
 })
 export class CustomersModule {}
