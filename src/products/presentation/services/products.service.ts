@@ -66,7 +66,9 @@ export class ProductsService {
     return ProductResponseDto.fromDomainEntity(fetchedProduct);
   }
 
-  async deleteProductById(deleteProductByIdDto: DeleteProductByIdDto): Promise<void> {
+  async deleteProductById(
+    deleteProductByIdDto: DeleteProductByIdDto,
+  ): Promise<void> {
     // execute the delete product command
     await this.commandBus.execute(
       new DeleteProductByIdCommand(deleteProductByIdDto.id),
