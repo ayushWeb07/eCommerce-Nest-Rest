@@ -13,9 +13,10 @@ import { UpdateProductHandler } from '../application/use-cases/update-product/up
 import { ConfigService } from '@nestjs/config';
 import { IDatabaseConfig } from '../../config/interfaces/database_config.interface';
 import MongoProductRepository from '../intrastructure/adapters/mongo-product.repository';
+import { MongoModule } from '../../shared/infrastructure/database/mongo/mongo.module';
 
 @Module({
-  imports: [CqrsModule, DrizzleModule],
+  imports: [CqrsModule, DrizzleModule, MongoModule],
   controllers: [ProductsController],
   providers: [
     DrizzleProductRepository,
