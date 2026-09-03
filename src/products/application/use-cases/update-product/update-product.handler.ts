@@ -3,7 +3,6 @@ import { UpdateProductCommand } from './update-product.command';
 import { Inject } from '@nestjs/common';
 import { PRODUCT_REPOSITORY_TOKEN } from '../../ports/product.repository.constants';
 import type { ProductRepository } from '../../ports/product.repository.port';
-import { CreateProductCommand } from '../create-product/create-product.command';
 import { ProductIdVo } from '../../../domain/value-objects/product-id.vo';
 import { Product } from '../../../domain/entities/product.entity';
 import {

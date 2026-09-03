@@ -4,7 +4,7 @@ import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
 import { SkuVo } from '../value-objects/sku.vo';
 import { v4 as uuidv4 } from 'uuid';
 
-export interface ProductProps {
+export interface IProductProps {
   id: ProductIdVo;
   name: string;
   description: string;
@@ -29,7 +29,7 @@ export class Product extends AggregateRoot {
   private _createdAt: Date;
   private _updatedAt: Date;
 
-  private constructor(props: ProductProps) {
+  private constructor(props: IProductProps) {
     super();
 
     // assign the corresponding properties
@@ -55,7 +55,7 @@ export class Product extends AggregateRoot {
     lowStockThreshold: number,
     isAvailable: boolean,
     id?: string,
-  ) {
+  ): Product {
     // create the product id vo
     const productIdVo = new ProductIdVo(id ?? uuidv4());
 
@@ -83,7 +83,7 @@ export class Product extends AggregateRoot {
   }
 
   // to be used from database layer
-  static reconstitute(props: ProductProps): Product {
+  static reconstitute(props: IProductProps): Product {
     return new Product(props);
   }
 

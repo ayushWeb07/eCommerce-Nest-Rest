@@ -15,10 +15,6 @@ import { CreateProductDto } from './dtos/create-product.dto';
 import { FindAllProductsDto } from './dtos/find-all-products.dto';
 import { ProductResponseDto } from './dtos/product-response.dto';
 import { FindProductByIdDto } from './dtos/find-product-by-id.dto';
-import {
-  ApplicationException,
-  ApplicationExceptionStatus,
-} from '../../shared/domain/exceptions/application.exception';
 import { DeleteProductByIdDto } from './dtos/delete-product-by-id.dto';
 import { UpdateProductDto } from './dtos/update-product.dto';
 

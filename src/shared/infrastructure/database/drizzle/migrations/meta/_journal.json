@@ -8,6 +8,13 @@
       "when": 1788405830641,
       "tag": "0000_greedy_tyger_tiger",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788416323880,
+      "tag": "0001_add_customers_table",
+      "breakpoints": true
     }
   ]
 }

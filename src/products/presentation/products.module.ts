@@ -3,7 +3,7 @@ import { ProductsController } from './products.controller';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ProductsService } from './services/products.service';
 import { PRODUCT_REPOSITORY_TOKEN } from '../application/ports/product.repository.constants';
-import DrizzleProductRepository from '../intrastructure/adapters/drizzle-product.repository';
+import DrizzleProductRepository from '../infrastructure/adapters/drizzle-product.repository';
 import { CreateProductHandler } from '../application/use-cases/create-product/create-product.handler';
 import { DrizzleModule } from '../../shared/infrastructure/database/drizzle/drizzle.module';
 import { FindAllProductsHandler } from '../application/use-cases/find-all-products/find-all-products.handler';
@@ -12,7 +12,7 @@ import { DeleteProductByIdHandler } from '../application/use-cases/delete-produc
 import { UpdateProductHandler } from '../application/use-cases/update-product/update-product.handler';
 import { ConfigService } from '@nestjs/config';
 import { IDatabaseConfig } from '../../config/interfaces/database_config.interface';
-import MongoProductRepository from '../intrastructure/adapters/mongo-product.repository';
+import MongoProductRepository from '../infrastructure/adapters/mongo-product.repository';
 import { MongoModule } from '../../shared/infrastructure/database/mongo/mongo.module';
 
 @Module({
