@@ -11,6 +11,8 @@ export interface IOrderItemProps {
   unitPrice: MoneyVo;
   quantity: number;
   discount: MoneyVo | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class OrderItem extends AggregateRoot {
@@ -20,6 +22,8 @@ export class OrderItem extends AggregateRoot {
   private _unitPrice: MoneyVo;
   private _quantity: number;
   private _discount: MoneyVo | null;
+  private _createdAt: Date;
+  private _updatedAt: Date;
 
   private constructor(props: IOrderItemProps) {
     super();
@@ -30,6 +34,8 @@ export class OrderItem extends AggregateRoot {
     this._unitPrice = props.unitPrice;
     this._quantity = props.quantity;
     this._discount = props.discount;
+    this._createdAt = props.createdAt;
+    this._updatedAt = props.updatedAt;
   }
 
   static create(
@@ -51,6 +57,9 @@ export class OrderItem extends AggregateRoot {
     const discountVo: MoneyVo | null =
       discountAmount !== null ? MoneyVo.create(discountAmount, currency) : null;
 
+    // get the current date for created at and updated at dates
+    const currentDate = new Date();
+
     return new OrderItem({
       id: idVo,
       productId,
@@ -58,6 +67,8 @@ export class OrderItem extends AggregateRoot {
       unitPrice: unitPriceVo,
       quantity,
       discount: discountVo,
+      createdAt: currentDate,
+      updatedAt: currentDate,
     });
   }
 
@@ -94,6 +105,16 @@ export class OrderItem extends AggregateRoot {
   // discount getter
   get discount(): MoneyVo | null {
     return this._discount;
+  }
+
+  // createdAt getter
+  get createdAt(): Date {
+    return this._createdAt;
+  }
+
+  // updatedAt getter
+  get updatedAt(): Date {
+    return this._updatedAt;
   }
 
   updateQuantity(qty: number): void {

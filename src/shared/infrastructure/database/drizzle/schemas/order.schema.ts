@@ -8,6 +8,8 @@ import {
   pgEnum,
 } from 'drizzle-orm/pg-core';
 import { customers } from './customer.schema';
+import { orderItems } from './order-item.schema';
+import { relations } from 'drizzle-orm';
 
 export const orderStatusEnum = pgEnum('status', [
   'pending',
@@ -45,3 +47,7 @@ export const orders = pgTable('orders', {
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
+
+export const orderItemsRelations = relations(orders, ({ many }) => ({
+  orderItems: many(orderItems),
+}));

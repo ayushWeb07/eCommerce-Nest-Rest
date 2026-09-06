@@ -7,6 +7,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { products } from './product.schema';
 import { orders } from './order.schema';
+import { relations } from 'drizzle-orm';
 
 export const orderItems = pgTable('order-items', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -35,3 +36,10 @@ export const orderItems = pgTable('order-items', {
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
+
+export const ordersRelations = relations(orderItems, ({ one }) => ({
+  order: one(orders, {
+    fields: [orderItems.orderId],
+    references: [orders.id],
+  }),
+}));
