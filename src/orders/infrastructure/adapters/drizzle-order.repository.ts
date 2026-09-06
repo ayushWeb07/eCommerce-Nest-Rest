@@ -72,10 +72,10 @@ class DrizzleOrderRepository implements OrderRepository {
     );
   }
 
-  async findByCustomerId(customerId: string): Promise<Order | null> {
-    // query the order along with its items from the db
-    const fetchedOrder: Order_OrderItemType | undefined =
-      await this.db.query.orders.findFirst({
+  async findAllByCustomerId(customerId: string): Promise<Order[]> {
+    // query the orders along with their items from the db
+    const fetchedOrders: Order_OrderItemType[] | undefined =
+      await this.db.query.orders.findMany({
         where: eq(orders.customerId, customerId),
 
         with: {
@@ -83,13 +83,12 @@ class DrizzleOrderRepository implements OrderRepository {
         },
       });
 
-    if (!fetchedOrder) {
-      return null;
-    }
-
-    return DrizzleOrderRepository.toOrderDomainEntity(
-      fetchedOrder,
-      fetchedOrder.orderItems,
+    // convert the drizzle rows to domain entity
+    return fetchedOrders.map((fetchedOrder: Order_OrderItemType): Order =>
+      DrizzleOrderRepository.toOrderDomainEntity(
+        fetchedOrder,
+        fetchedOrder.orderItems,
+      ),
     );
   }
 

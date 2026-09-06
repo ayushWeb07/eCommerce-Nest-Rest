@@ -1,8 +1,8 @@
 import { Query } from '@nestjs/cqrs';
 import { Order } from '../../../domain/entities/order.entity';
 
-export class FindAllOrdersQuery extends Query<Order[]> {
-  constructor() {
+export class FindAllOrdersByCustomerIdQuery extends Query<Order[]> {
+  constructor(public readonly customerId: string) {
     super();
   }
 }
