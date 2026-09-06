@@ -26,7 +26,7 @@ class DrizzleOrderRepository implements OrderRepository {
     private readonly db: NodePgDatabase<typeof schema>,
   ) {}
 
-  async save(order: Order): Promise<void> {
+  async saveOrder(order: Order): Promise<void> {
     // convert the order to drizzle
     const orderDrizzleRow: SelectOrderType =
       DrizzleOrderRepository.toOrderDrizzleSchema(order);
@@ -51,7 +51,7 @@ class DrizzleOrderRepository implements OrderRepository {
     });
   }
 
-  async findById(orderId: OrderIdVo): Promise<Order | null> {
+  async findOrderById(orderId: OrderIdVo): Promise<Order | null> {
     // query the order along with its items from the db
     const fetchedOrder: Order_OrderItemType | undefined =
       await this.db.query.orders.findFirst({
@@ -72,7 +72,7 @@ class DrizzleOrderRepository implements OrderRepository {
     );
   }
 
-  async findAllByCustomerId(customerId: string): Promise<Order[]> {
+  async findAllOrdersByCustomerId(customerId: string): Promise<Order[]> {
     // query the orders along with their items from the db
     const fetchedOrders: Order_OrderItemType[] | undefined =
       await this.db.query.orders.findMany({
@@ -92,7 +92,7 @@ class DrizzleOrderRepository implements OrderRepository {
     );
   }
 
-  async findAll(): Promise<Order[]> {
+  async findAllOrders(): Promise<Order[]> {
     // query the orders along with their items from the db
     const fetchedOrders: Order_OrderItemType[] | undefined =
       await this.db.query.orders.findMany({
@@ -108,6 +108,20 @@ class DrizzleOrderRepository implements OrderRepository {
         fetchedOrder.orderItems,
       ),
     );
+  }
+
+  async findOrderItemById(orderItemId: UniqueIdVo): Promise<OrderItem | null> {
+    // query the order item  from the db
+    const [fetchedOrderItem] = await this.db
+      .select()
+      .from(orderItems)
+      .where(eq(orderItems.id, orderItemId.getValue()));
+
+    if (!fetchedOrderItem) {
+      return null;
+    }
+
+    return DrizzleOrderRepository.toOrderItemDomainEntity(fetchedOrderItem);
   }
 
   async deleteOrderById(orderId: OrderIdVo): Promise<void> {

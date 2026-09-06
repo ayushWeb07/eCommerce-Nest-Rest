@@ -20,7 +20,7 @@ export class FindOrderByIdHandler implements IQueryHandler<FindOrderByIdQuery> {
 
   async execute(query: FindOrderByIdQuery): Promise<Order> {
     // fetch the order using the orders repo
-    const fetchedOrder: Order | null = await this.orderRepository.findById(
+    const fetchedOrder: Order | null = await this.orderRepository.findOrderById(
       new OrderIdVo(query.id),
     );
 

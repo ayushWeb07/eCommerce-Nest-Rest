@@ -14,7 +14,7 @@ export class FindAllOrdersHandler implements IQueryHandler<FindAllOrdersQuery> {
 
   async execute(query: FindAllOrdersQuery): Promise<Order[]> {
     // fetch the orders using the orders repo
-    const fetchedOrders: Order[] = await this.orderRepository.findAll();
+    const fetchedOrders: Order[] = await this.orderRepository.findAllOrders();
 
     return fetchedOrders;
   }

@@ -22,6 +22,6 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
     );
 
     // create the order using the orders repo
-    await this.orderRepository.save(newOrder);
+    await this.orderRepository.saveOrder(newOrder);
   }
 }
