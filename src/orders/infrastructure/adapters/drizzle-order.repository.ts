@@ -111,13 +111,40 @@ class DrizzleOrderRepository implements OrderRepository {
     );
   }
 
-  async deleteById(orderId: OrderIdVo): Promise<void> {
+  async deleteOrderById(orderId: OrderIdVo): Promise<void> {
     // delete the order from the db
     await this.db.delete(orders).where(eq(orders.id, orderId.getValue()));
   }
 
-  async update(order: Order): Promise<void> {
-    throw new Error('Method not implemented.');
+  async deleteOrderItemById(orderItemId: UniqueIdVo): Promise<void> {
+    // delete the order item from the db
+    await this.db
+      .delete(orderItems)
+      .where(eq(orderItems.id, orderItemId.getValue()));
+  }
+
+  async updateOrder(order: Order): Promise<void> {
+    // convert the order to drizzle
+    const orderDrizzleRow: SelectOrderType =
+      DrizzleOrderRepository.toOrderDrizzleSchema(order);
+
+    // update the product from the db
+    await this.db
+      .update(orders)
+      .set(orderDrizzleRow)
+      .where(eq(orders.id, order.id.getValue()));
+  }
+
+  async updateOrderItem(orderItem: OrderItem, orderId: string): Promise<void> {
+    // convert the order item to drizzle
+    const orderItemDrizzleRow: SelectOrderItemType =
+      DrizzleOrderRepository.toOrderItemDrizzleSchema(orderItem, orderId);
+
+    // update the product from the db
+    await this.db
+      .update(orderItems)
+      .set(orderItemDrizzleRow)
+      .where(eq(orderItems.id, orderItem.id.getValue()));
   }
 
   private static toOrderDrizzleSchema(order: Order): SelectOrderType {
