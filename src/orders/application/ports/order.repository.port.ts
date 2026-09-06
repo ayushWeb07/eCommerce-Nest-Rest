@@ -11,5 +11,5 @@ export interface OrderRepository {
   deleteOrderById(orderId: OrderIdVo): Promise<void>;
   updateOrder(order: Order): Promise<void>;
   deleteOrderItemById(orderItemId: UniqueIdVo): Promise<void>;
-  updateOrderItem(orderItem: OrderItem, orderId: string): Promise<void>;
+  updateOrderItem(orderItem: OrderItem): Promise<void>;
 }
