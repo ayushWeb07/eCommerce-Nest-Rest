@@ -1,11 +1,25 @@
-import { OrderItem } from '../../../domain/entities/order-item.entity';
 import { ShippingAddressVo } from '../../../domain/value-objects/shipping-address.vo';
+
+export class CreateOrderItemDto {
+  productId: string;
+  productName: string;
+  unitPriceAmount: number;
+  unitPriceCurrency: string;
+  quantity: number;
+  discountAmount?: number;
+}
 
 export class CreateOrderCommand {
   constructor(
     public readonly customerId: string,
-    public readonly items: OrderItem[],
-    public readonly shippingAddress: ShippingAddressVo,
+    public readonly items: CreateOrderItemDto[],
+
+    public readonly shippingStreet: string,
+    public readonly shippingCity: string,
+    public readonly shippingPincode: string,
+    public readonly shippingState: string,
+    public readonly shippingCountry: string,
+
     public readonly additionalNotes: string | null,
   ) {}
 }

@@ -5,9 +5,12 @@ import { ORDER_REPOSITORY_TOKEN } from '../application/ports/order.repository.co
 import DrizzleOrderRepository from '../infrastructure/adapters/drizzle-order.repository';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './services/orders.service';
+import { CreateOrderHandler } from '../application/use-cases/create-order/create-order.handler';
+import { CustomersModule } from '../../customers/presentation/customers.module';
+import { ProductsModule } from '../../products/presentation/products.module';
 
 @Module({
-  imports: [CqrsModule, DrizzleModule],
+  imports: [CqrsModule, DrizzleModule, CustomersModule, ProductsModule],
   controllers: [OrdersController],
   providers: [
     {
@@ -15,6 +18,8 @@ import { OrdersService } from './services/orders.service';
       useClass: DrizzleOrderRepository,
     },
     OrdersService,
+
+    CreateOrderHandler,
   ],
 })
 export class OrdersModule {}
