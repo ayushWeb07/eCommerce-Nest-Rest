@@ -8,6 +8,10 @@ import { OrdersService } from './services/orders.service';
 import { CreateOrderHandler } from '../application/use-cases/create-order/create-order.handler';
 import { CustomersModule } from '../../customers/presentation/customers.module';
 import { ProductsModule } from '../../products/presentation/products.module';
+import { CUSTOMER_TOKEN } from '../application/ports/customer.constants';
+import CustomerAdapter from '../infrastructure/adapters/customer.adapter';
+import { PRODUCT_TOKEN } from '../application/ports/product.constants';
+import ProductAdapter from '../infrastructure/adapters/product.adapter';
 
 @Module({
   imports: [CqrsModule, DrizzleModule, CustomersModule, ProductsModule],
@@ -16,6 +20,14 @@ import { ProductsModule } from '../../products/presentation/products.module';
     {
       provide: ORDER_REPOSITORY_TOKEN,
       useClass: DrizzleOrderRepository,
+    },
+    {
+      provide: CUSTOMER_TOKEN,
+      useClass: CustomerAdapter,
+    },
+    {
+      provide: PRODUCT_TOKEN,
+      useClass: ProductAdapter,
     },
     OrdersService,
 

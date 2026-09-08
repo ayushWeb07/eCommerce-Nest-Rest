@@ -4,20 +4,16 @@ import { Inject } from '@nestjs/common';
 import { ORDER_REPOSITORY_TOKEN } from '../../ports/order.repository.constants';
 import type { OrderRepository } from '../../ports/order.repository.port';
 import { Order } from '../../../domain/entities/order.entity';
-import { CUSTOMER_REPOSITORY_TOKEN } from '../../../../customers/application/ports/customer.repository.constants';
-import type { CustomerRepository } from '../../../../customers/application/ports/customer.repository.port';
-import { PRODUCT_REPOSITORY_TOKEN } from '../../../../products/application/ports/product.repository.constants';
-import type { ProductRepository } from '../../../../products/application/ports/product.repository.port';
-import { CustomerIdVo } from '../../../../customers/domain/value-objects/customer-id.vo';
 import {
   ApplicationException,
   ApplicationExceptionStatus,
 } from '../../../../shared/domain/exceptions/application.exception';
-import { Customer } from '../../../../customers/domain/entities/customer.entity';
-import { ProductIdVo } from '../../../../products/domain/value-objects/product-id.vo';
-import { Product } from '../../../../products/domain/entities/product.entity';
 import { OrderItem } from '../../../domain/entities/order-item.entity';
 import { ShippingAddressVo } from '../../../domain/value-objects/shipping-address.vo';
+import type { CustomerPort } from '../../ports/customer.port';
+import type { ProductPort } from '../../ports/product.port';
+import { CUSTOMER_TOKEN } from '../../ports/customer.constants';
+import { PRODUCT_TOKEN } from '../../ports/product.constants';
 
 @CommandHandler(CreateOrderCommand)
 export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
@@ -25,21 +21,20 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
     @Inject(ORDER_REPOSITORY_TOKEN)
     private readonly orderRepository: OrderRepository,
 
-    @Inject(CUSTOMER_REPOSITORY_TOKEN)
-    private readonly customerRepository: CustomerRepository,
+    @Inject(CUSTOMER_TOKEN)
+    private readonly customerPort: CustomerPort,
 
-    @Inject(PRODUCT_REPOSITORY_TOKEN)
-    private readonly productRepository: ProductRepository,
+    @Inject(PRODUCT_TOKEN)
+    private readonly productPort: ProductPort,
   ) {}
 
   async execute(command: CreateOrderCommand): Promise<void> {
     // check if customer actually exists
-    const fetchedCustomer: Customer | null =
-      await this.customerRepository.findById(
-        new CustomerIdVo(command.customerId),
-      );
+    const customerExists: boolean = await this.customerPort.checkIfExists(
+      command.customerId,
+    );
 
-    if (!fetchedCustomer) {
+    if (!customerExists) {
       throw new ApplicationException(
         'Such customer does not exist',
         ApplicationExceptionStatus.NOT_FOUND,
@@ -49,12 +44,11 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
     // check if all products actually exists
     for (const orderItem of command.items) {
       // fetch the product using the products repo
-      const fetchedProduct: Product | null =
-        await this.productRepository.findById(
-          new ProductIdVo(orderItem.productId),
-        );
+      const productExists: boolean = await this.productPort.checkIfExists(
+        orderItem.productId,
+      );
 
-      if (!fetchedProduct) {
+      if (!productExists) {
         throw new ApplicationException(
           `Product with id '${orderItem.productId}' does not exist`,
           ApplicationExceptionStatus.NOT_FOUND,
