@@ -12,6 +12,7 @@ import { CUSTOMER_TOKEN } from '../application/ports/customer.constants';
 import CustomerAdapter from '../infrastructure/adapters/customer.adapter';
 import { PRODUCT_TOKEN } from '../application/ports/product.constants';
 import ProductAdapter from '../infrastructure/adapters/product.adapter';
+import { OrderPlacedHandler } from '../application/event-handlers/order-placed.handler';
 
 @Module({
   imports: [CqrsModule, DrizzleModule, CustomersModule, ProductsModule],
@@ -32,6 +33,7 @@ import ProductAdapter from '../infrastructure/adapters/product.adapter';
     OrdersService,
 
     CreateOrderHandler,
+    OrderPlacedHandler,
   ],
 })
 export class OrdersModule {}

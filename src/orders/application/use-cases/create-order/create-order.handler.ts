@@ -1,4 +1,4 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { CreateOrderCommand, CreateOrderItemDto } from './create-order.command';
 import { Inject } from '@nestjs/common';
 import { ORDER_REPOSITORY_TOKEN } from '../../ports/order.repository.constants';
@@ -26,6 +26,8 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
 
     @Inject(PRODUCT_TOKEN)
     private readonly productPort: ProductPort,
+
+    private readonly eventPublisher: EventPublisher,
   ) {}
 
   async execute(command: CreateOrderCommand): Promise<void> {
@@ -79,14 +81,19 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
     });
 
     // create the order domain entity
-    const newOrder = Order.create(
-      command.customerId,
-      orderItems,
-      shippingAddressVo,
-      command.additionalNotes,
+    const newOrder = this.eventPublisher.mergeObjectContext(
+      Order.create(
+        command.customerId,
+        orderItems,
+        shippingAddressVo,
+        command.additionalNotes,
+      ),
     );
 
     // create the order using the orders repo
     await this.orderRepository.saveOrder(newOrder);
+
+    // finally dispatch all the outstanding events
+    newOrder.commit();
   }
 }

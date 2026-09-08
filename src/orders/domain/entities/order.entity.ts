@@ -5,6 +5,7 @@ import { OrderItem } from './order-item.entity';
 import { OrderStatusVo } from '../value-objects/order-status.vo';
 import { v4 as uuidv4 } from 'uuid';
 import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
+import { OrderPlacedEvent } from '../events/order-placed.event';
 
 export interface IOrderProps {
   id: OrderIdVo;
@@ -59,7 +60,8 @@ export class Order extends AggregateRoot {
     // get the current date for created at and updated at dates
     const currentDate = new Date();
 
-    return new Order({
+    // create the new order instance
+    const newOrder = new Order({
       id: orderIdVo,
       customerId,
       shippingAddress,
@@ -70,6 +72,11 @@ export class Order extends AggregateRoot {
       createdAt: currentDate,
       updatedAt: currentDate,
     });
+
+    // dispatch the create order event
+    newOrder.apply(new OrderPlacedEvent(newOrder.id.getValue(), customerId));
+
+    return newOrder;
   }
 
   private getTotalAmount(): number {

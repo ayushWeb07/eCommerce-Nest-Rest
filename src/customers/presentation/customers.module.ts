@@ -36,6 +36,6 @@ import NodemailerEmailNotification from '../infrastructure/adapters/nodemailer-e
     DeleteCustomerByIdHandler,
     CustomerRegisteredHandler,
   ],
-  exports: [CUSTOMER_REPOSITORY_TOKEN],
+  exports: [CUSTOMER_REPOSITORY_TOKEN, NOTIFICATION_SERVICE_TOKEN],
 })
 export class CustomersModule {}
