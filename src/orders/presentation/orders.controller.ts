@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { OrdersService } from './services/orders.service';
@@ -12,6 +13,7 @@ import { CreateOrderDto } from './dtos/create-order.dto';
 import { FindAllOrdersByCustomerIdDto } from './dtos/find-all-orders-by-customer-id.dto';
 import { OrderResponseDto } from './dtos/order-response.dto';
 import { FindOrderByIdDto } from './dtos/find-order-by-id.dto';
+import { UpdateOrderStatusDto } from './dtos/update-order-status.dto';
 
 @Controller('orders')
 export class OrdersController {
@@ -72,6 +74,18 @@ export class OrdersController {
       success: true,
       message: 'Successfully fetched all the orders',
       data: fetchedOrders,
+    };
+  }
+
+  @Patch('confirm/:id')
+  @HttpCode(HttpStatus.OK)
+  async confirmOrder(@Param() updateOrderStatusDto: UpdateOrderStatusDto) {
+    // call the update order status service
+    await this.ordersService.confirmOrder(updateOrderStatusDto);
+
+    return {
+      success: true,
+      message: 'Successfully confirmed the order',
     };
   }
 }

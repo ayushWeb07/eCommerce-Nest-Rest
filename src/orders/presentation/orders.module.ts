@@ -16,6 +16,7 @@ import { OrderPlacedHandler } from '../application/event-handlers/order-placed.h
 import { FindAllOrdersByCustomerIdHandler } from '../application/use-cases/find-all-orders-by-customer-id/find-all-orders-by-customer-id.handler';
 import { FindOrderByIdHandler } from '../application/use-cases/find-order-by-id/find-order-by-id.handler';
 import { FindAllOrdersHandler } from '../application/use-cases/find-all-orders/find-all-orders.handler';
+import { UpdateStatusHandler } from '../application/use-cases/update-status/update-status.handler';
 
 @Module({
   imports: [CqrsModule, DrizzleModule, CustomersModule, ProductsModule],
@@ -39,6 +40,7 @@ import { FindAllOrdersHandler } from '../application/use-cases/find-all-orders/f
     FindAllOrdersByCustomerIdHandler,
     FindOrderByIdHandler,
     FindAllOrdersHandler,
+    UpdateStatusHandler,
     OrderPlacedHandler,
   ],
 })
