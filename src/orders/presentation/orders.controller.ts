@@ -1,6 +1,17 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { OrdersService } from './services/orders.service';
 import { CreateOrderDto } from './dtos/create-order.dto';
+import { FindAllOrdersByCustomerIdDto } from './dtos/find-all-orders-by-customer-id.dto';
+import { OrderResponseDto } from './dtos/order-response.dto';
+import { FindOrderByIdDto } from './dtos/find-order-by-id.dto';
 
 @Controller('orders')
 export class OrdersController {
@@ -15,6 +26,38 @@ export class OrdersController {
     return {
       success: true,
       message: 'Successfully created the new order',
+    };
+  }
+
+  @Get('customers/:customerId')
+  @HttpCode(HttpStatus.OK)
+  async findAllOrdersByCustomerId(
+    @Param() findAllOrdersByCustomerIdDto: FindAllOrdersByCustomerIdDto,
+  ) {
+    // call the find orders by customer id service
+    const fetchedOrders: OrderResponseDto[] =
+      await this.ordersService.findAllOrdersByCustomerId(
+        findAllOrdersByCustomerIdDto,
+      );
+
+    return {
+      success: true,
+      message: 'Successfully fetched the orders by customer id',
+      data: fetchedOrders,
+    };
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async findOrderById(@Param() findOrderByIdDto: FindOrderByIdDto) {
+    // call the find by id order service
+    const fetchedOrder: OrderResponseDto =
+      await this.ordersService.findOrderById(findOrderByIdDto);
+
+    return {
+      success: true,
+      message: 'Successfully fetched the order by id',
+      data: fetchedOrder,
     };
   }
 }

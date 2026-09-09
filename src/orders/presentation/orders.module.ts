@@ -13,6 +13,8 @@ import CustomerAdapter from '../infrastructure/adapters/customer.adapter';
 import { PRODUCT_TOKEN } from '../application/ports/product.constants';
 import ProductAdapter from '../infrastructure/adapters/product.adapter';
 import { OrderPlacedHandler } from '../application/event-handlers/order-placed.handler';
+import { FindAllOrdersByCustomerIdHandler } from '../application/use-cases/find-all-orders-by-customer-id/find-all-orders-by-customer-id.handler';
+import { FindOrderByIdHandler } from '../application/use-cases/find-order-by-id/find-order-by-id.handler';
 
 @Module({
   imports: [CqrsModule, DrizzleModule, CustomersModule, ProductsModule],
@@ -33,6 +35,8 @@ import { OrderPlacedHandler } from '../application/event-handlers/order-placed.h
     OrdersService,
 
     CreateOrderHandler,
+    FindAllOrdersByCustomerIdHandler,
+    FindOrderByIdHandler,
     OrderPlacedHandler,
   ],
 })

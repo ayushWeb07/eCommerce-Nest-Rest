@@ -2,6 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { CreateOrderCommand } from '../../application/use-cases/create-order/create-order.command';
+import { FindAllOrdersByCustomerIdQuery } from '../../application/use-cases/find-all-orders-by-customer-id/find-all-orders-by-customer-id.query';
+import { FindAllOrdersByCustomerIdDto } from '../dtos/find-all-orders-by-customer-id.dto';
+import { Order } from '../../domain/entities/order.entity';
+import { OrderResponseDto } from '../dtos/order-response.dto';
+import { FindOrderByIdDto } from '../dtos/find-order-by-id.dto';
+import { FindOrderByIdQuery } from '../../application/use-cases/find-order-by-id/find-order-by-id.query';
 
 @Injectable()
 export class OrdersService {
@@ -26,5 +32,33 @@ export class OrdersService {
         createOrderDto?.additionalNotes ?? null,
       ),
     );
+  }
+
+  async findAllOrdersByCustomerId(
+    findAllOrdersByCustomerIdDto: FindAllOrdersByCustomerIdDto,
+  ): Promise<OrderResponseDto[]> {
+    // execute the find all orders query
+    const fetchedOrders: Order[] = await this.queryBus.execute(
+      new FindAllOrdersByCustomerIdQuery(
+        findAllOrdersByCustomerIdDto.customerId,
+      ),
+    );
+
+    // convert them from order entities to order response dto
+    return fetchedOrders.map((order: Order): OrderResponseDto =>
+      OrderResponseDto.fromDomainEntity(order),
+    );
+  }
+
+  async findOrderById(
+    findOrderByIdDto: FindOrderByIdDto,
+  ): Promise<OrderResponseDto> {
+    // execute the find order by id query
+    const fetchedOrder: Order = await this.queryBus.execute(
+      new FindOrderByIdQuery(findOrderByIdDto.id),
+    );
+
+    // convert them from order entity to order response dto
+    return OrderResponseDto.fromDomainEntity(fetchedOrder);
   }
 }
