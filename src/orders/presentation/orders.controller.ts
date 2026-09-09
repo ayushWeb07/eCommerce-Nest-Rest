@@ -60,4 +60,18 @@ export class OrdersController {
       data: fetchedOrder,
     };
   }
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async findAllOrders() {
+    // call the find all orders service
+    const fetchedOrders: OrderResponseDto[] =
+      await this.ordersService.findAllOrders();
+
+    return {
+      success: true,
+      message: 'Successfully fetched all the orders',
+      data: fetchedOrders,
+    };
+  }
 }

@@ -15,6 +15,7 @@ import ProductAdapter from '../infrastructure/adapters/product.adapter';
 import { OrderPlacedHandler } from '../application/event-handlers/order-placed.handler';
 import { FindAllOrdersByCustomerIdHandler } from '../application/use-cases/find-all-orders-by-customer-id/find-all-orders-by-customer-id.handler';
 import { FindOrderByIdHandler } from '../application/use-cases/find-order-by-id/find-order-by-id.handler';
+import { FindAllOrdersHandler } from '../application/use-cases/find-all-orders/find-all-orders.handler';
 
 @Module({
   imports: [CqrsModule, DrizzleModule, CustomersModule, ProductsModule],
@@ -37,6 +38,7 @@ import { FindOrderByIdHandler } from '../application/use-cases/find-order-by-id/
     CreateOrderHandler,
     FindAllOrdersByCustomerIdHandler,
     FindOrderByIdHandler,
+    FindAllOrdersHandler,
     OrderPlacedHandler,
   ],
 })

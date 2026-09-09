@@ -8,6 +8,7 @@ import { Order } from '../../domain/entities/order.entity';
 import { OrderResponseDto } from '../dtos/order-response.dto';
 import { FindOrderByIdDto } from '../dtos/find-order-by-id.dto';
 import { FindOrderByIdQuery } from '../../application/use-cases/find-order-by-id/find-order-by-id.query';
+import { FindAllOrdersQuery } from '../../application/use-cases/find-all-orders/find-all-orders.query';
 
 @Injectable()
 export class OrdersService {
@@ -60,5 +61,17 @@ export class OrdersService {
 
     // convert them from order entity to order response dto
     return OrderResponseDto.fromDomainEntity(fetchedOrder);
+  }
+
+  async findAllOrders(): Promise<OrderResponseDto[]> {
+    // execute the find all orders query
+    const fetchedOrders: Order[] = await this.queryBus.execute(
+      new FindAllOrdersQuery(),
+    );
+
+    // convert them from order entities to order response dto
+    return fetchedOrders.map((order: Order): OrderResponseDto =>
+      OrderResponseDto.fromDomainEntity(order),
+    );
   }
 }
