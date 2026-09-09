@@ -25,7 +25,6 @@ class DrizzleOrderRepository implements OrderRepository {
     @Inject(DRIZZLE_PROVIDER_TOKEN)
     private readonly db: NodePgDatabase<typeof schema>,
   ) {}
-
   async saveOrder(order: Order): Promise<void> {
     // convert the order to drizzle
     const orderDrizzleRow: SelectOrderType =
@@ -141,7 +140,7 @@ class DrizzleOrderRepository implements OrderRepository {
     const orderDrizzleRow: SelectOrderType =
       DrizzleOrderRepository.toOrderDrizzleSchema(order);
 
-    // update the product from the db
+    // update the order from the db
     await this.db
       .update(orders)
       .set(orderDrizzleRow)
@@ -153,11 +152,24 @@ class DrizzleOrderRepository implements OrderRepository {
     const orderItemDrizzleRow: SelectOrderItemType =
       DrizzleOrderRepository.toOrderItemDrizzleSchema(orderItem, orderId);
 
-    // update the product from the db
+    // update the order item from the db
     await this.db
       .update(orderItems)
       .set(orderItemDrizzleRow)
       .where(eq(orderItems.id, orderItem.id.getValue()));
+  }
+
+  async updateOrderStatus(
+    orderId: OrderIdVo,
+    orderStatus: OrderStatusVo,
+  ): Promise<void> {
+    // update the order status from the db
+    await this.db
+      .update(orders)
+      .set({
+        status: orderStatus.getValue(),
+      })
+      .where(eq(orders.id, orderId.getValue()));
   }
 
   private static toOrderDrizzleSchema(order: Order): SelectOrderType {

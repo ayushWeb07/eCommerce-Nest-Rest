@@ -2,6 +2,7 @@ import { Order } from '../../domain/entities/order.entity';
 import { OrderIdVo } from '../../domain/value-objects/order-id.vo';
 import { UniqueIdVo } from '../../../shared/domain/value-objects/unique-id.vo';
 import { OrderItem } from '../../domain/entities/order-item.entity';
+import { OrderStatusVo } from '../../domain/value-objects/order-status.vo';
 
 export interface OrderRepository {
   saveOrder(order: Order): Promise<void>;
@@ -13,4 +14,8 @@ export interface OrderRepository {
   updateOrder(order: Order): Promise<void>;
   deleteOrderItemById(orderItemId: UniqueIdVo): Promise<void>;
   updateOrderItem(orderItem: OrderItem, orderId: string): Promise<void>;
+  updateOrderStatus(
+    orderId: OrderIdVo,
+    orderStatus: OrderStatusVo,
+  ): Promise<void>;
 }
