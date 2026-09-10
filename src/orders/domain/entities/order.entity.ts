@@ -153,4 +153,14 @@ export class Order extends AggregateRoot {
     // dispatch the order confirmed event
     this.apply(new OrderConfirmedEvent(this._id.getValue(), this._customerId));
   }
+
+  // ship the order
+  ship(trackingId: string): void {
+    this._status = this._status.transitionToShipped();
+    this._trackingId = trackingId;
+    this._updatedAt = new Date();
+
+    // dispatch the order shipped event
+    this.apply(new OrderPlacedEvent(this._id.getValue(), this._customerId));
+  }
 }

@@ -14,6 +14,7 @@ import { FindAllOrdersByCustomerIdDto } from './dtos/find-all-orders-by-customer
 import { OrderResponseDto } from './dtos/order-response.dto';
 import { FindOrderByIdDto } from './dtos/find-order-by-id.dto';
 import { UpdateOrderStatusDto } from './dtos/update-order-status.dto';
+import { ShipOrderDto } from './dtos/ship-order.dto';
 
 @Controller('orders')
 export class OrdersController {
@@ -86,6 +87,18 @@ export class OrdersController {
     return {
       success: true,
       message: 'Successfully confirmed the order',
+    };
+  }
+
+  @Patch('ship')
+  @HttpCode(HttpStatus.OK)
+  async shipOrder(@Body() shipOrderDto: ShipOrderDto) {
+    // call the ship order service
+    await this.ordersService.shipOrder(shipOrderDto);
+
+    return {
+      success: true,
+      message: 'Successfully updated the order status to shipped',
     };
   }
 }

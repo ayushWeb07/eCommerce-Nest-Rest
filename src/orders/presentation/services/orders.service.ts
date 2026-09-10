@@ -11,6 +11,8 @@ import { FindOrderByIdQuery } from '../../application/use-cases/find-order-by-id
 import { FindAllOrdersQuery } from '../../application/use-cases/find-all-orders/find-all-orders.query';
 import { UpdateOrderStatusDto } from '../dtos/update-order-status.dto';
 import { ConfirmOrderCommand } from '../../application/use-cases/confirm-order/confirm-order.command';
+import { ShipOrderDto } from '../dtos/ship-order.dto';
+import { ShipOrderCommand } from '../../application/use-cases/ship-order/ship-order.command';
 
 @Injectable()
 export class OrdersService {
@@ -83,6 +85,13 @@ export class OrdersService {
     // execute the update order command
     await this.commandBus.execute(
       new ConfirmOrderCommand(updateOrderStatusDto.id),
+    );
+  }
+
+  async shipOrder(shipOrderDto: ShipOrderDto): Promise<void> {
+    // execute the update order command
+    await this.commandBus.execute(
+      new ShipOrderCommand(shipOrderDto.orderId, shipOrderDto.trackingId),
     );
   }
 }
