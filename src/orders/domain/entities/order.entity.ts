@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
 import { OrderPlacedEvent } from '../events/order-placed.event';
 import { OrderConfirmedEvent } from '../events/order-confirmed.event';
+import { OrderShippedEvent } from '../events/order-shipped.event';
 
 export interface IOrderProps {
   id: OrderIdVo;
@@ -161,6 +162,12 @@ export class Order extends AggregateRoot {
     this._updatedAt = new Date();
 
     // dispatch the order shipped event
-    this.apply(new OrderPlacedEvent(this._id.getValue(), this._customerId));
+    this.apply(
+      new OrderShippedEvent(
+        this._id.getValue(),
+        this._customerId,
+        this._trackingId,
+      ),
+    );
   }
 }
