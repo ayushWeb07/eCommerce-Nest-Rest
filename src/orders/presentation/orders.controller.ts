@@ -81,7 +81,7 @@ export class OrdersController {
   @Patch('confirm/:id')
   @HttpCode(HttpStatus.OK)
   async confirmOrder(@Param() updateOrderStatusDto: UpdateOrderStatusDto) {
-    // call the update order status service
+    // call the confirm order service
     await this.ordersService.confirmOrder(updateOrderStatusDto);
 
     return {
@@ -99,6 +99,18 @@ export class OrdersController {
     return {
       success: true,
       message: 'Successfully updated the order status to shipped',
+    };
+  }
+
+  @Patch('deliver/:id')
+  @HttpCode(HttpStatus.OK)
+  async deliverOrder(@Param() updateOrderStatusDto: UpdateOrderStatusDto) {
+    // call the deliver order service
+    await this.ordersService.deliverOrder(updateOrderStatusDto);
+
+    return {
+      success: true,
+      message: 'Successfully delivered the order',
     };
   }
 }

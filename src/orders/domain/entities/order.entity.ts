@@ -8,6 +8,7 @@ import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
 import { OrderPlacedEvent } from '../events/order-placed.event';
 import { OrderConfirmedEvent } from '../events/order-confirmed.event';
 import { OrderShippedEvent } from '../events/order-shipped.event';
+import { OrderDeliveredEvent } from '../events/order-delivered.event';
 
 export interface IOrderProps {
   id: OrderIdVo;
@@ -169,5 +170,14 @@ export class Order extends AggregateRoot {
         this._trackingId,
       ),
     );
+  }
+
+  // deliver the order
+  deliver(): void {
+    this._status = this._status.transitionToDelivered();
+    this._updatedAt = new Date();
+
+    // dispatch the order delivered event
+    this.apply(new OrderDeliveredEvent(this._id.getValue(), this._customerId));
   }
 }
