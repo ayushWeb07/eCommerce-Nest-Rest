@@ -9,8 +9,8 @@ import { OrderResponseDto } from '../dtos/order-response.dto';
 import { FindOrderByIdDto } from '../dtos/find-order-by-id.dto';
 import { FindOrderByIdQuery } from '../../application/use-cases/find-order-by-id/find-order-by-id.query';
 import { FindAllOrdersQuery } from '../../application/use-cases/find-all-orders/find-all-orders.query';
-import { UpdateStatusCommand } from '../../application/use-cases/update-status/update-status.command';
 import { UpdateOrderStatusDto } from '../dtos/update-order-status.dto';
+import { ConfirmOrderCommand } from '../../application/use-cases/confirm-order/confirm-order.command';
 
 @Injectable()
 export class OrdersService {
@@ -82,7 +82,7 @@ export class OrdersService {
   ): Promise<void> {
     // execute the update order command
     await this.commandBus.execute(
-      new UpdateStatusCommand(updateOrderStatusDto.id, 'confirmed'),
+      new ConfirmOrderCommand(updateOrderStatusDto.id),
     );
   }
 }

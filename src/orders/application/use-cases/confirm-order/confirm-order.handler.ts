@@ -1,4 +1,4 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
 import { ORDER_REPOSITORY_TOKEN } from '../../ports/order.repository.constants';
 import type { OrderRepository } from '../../ports/order.repository.port';
@@ -8,17 +8,19 @@ import {
   ApplicationException,
   ApplicationExceptionStatus,
 } from '../../../../shared/domain/exceptions/application.exception';
-import { UpdateStatusCommand } from './update-status.command';
+import { ConfirmOrderCommand } from './confirm-order.command';
 import { OrderStatusVo } from '../../../domain/value-objects/order-status.vo';
 
-@CommandHandler(UpdateStatusCommand)
-export class UpdateStatusHandler implements ICommandHandler<UpdateStatusCommand> {
+@CommandHandler(ConfirmOrderCommand)
+export class ConfirmOrderHandler implements ICommandHandler<ConfirmOrderCommand> {
   constructor(
     @Inject(ORDER_REPOSITORY_TOKEN)
     private readonly orderRepository: OrderRepository,
+
+    private readonly eventPublisher: EventPublisher,
   ) {}
 
-  async execute(command: UpdateStatusCommand): Promise<void> {
+  async execute(command: ConfirmOrderCommand): Promise<void> {
     const orderId = new OrderIdVo(command.id);
 
     // fetch the order using the orders repo
@@ -32,10 +34,17 @@ export class UpdateStatusHandler implements ICommandHandler<UpdateStatusCommand>
       );
     }
 
+    // confirm the order
+    const trackedOrder = this.eventPublisher.mergeObjectContext(fetchedOrder);
+    trackedOrder.confirm();
+
     // update the status using the orders repo
     await this.orderRepository.updateOrderStatus(
       orderId,
-      OrderStatusVo.fromString(command.status),
+      OrderStatusVo.confirmed(),
     );
+
+    // finally dispatch all the outstanding events
+    trackedOrder.commit();
   }
 }

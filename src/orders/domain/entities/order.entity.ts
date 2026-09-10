@@ -6,6 +6,7 @@ import { OrderStatusVo } from '../value-objects/order-status.vo';
 import { v4 as uuidv4 } from 'uuid';
 import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
 import { OrderPlacedEvent } from '../events/order-placed.event';
+import { OrderConfirmedEvent } from '../events/order-confirmed.event';
 
 export interface IOrderProps {
   id: OrderIdVo;
@@ -142,5 +143,14 @@ export class Order extends AggregateRoot {
   // updatedAt getter
   get updatedAt(): Date {
     return this._updatedAt;
+  }
+
+  // confirm the order
+  confirm(): void {
+    this._status = this._status.transitionToConfirmed();
+    this._updatedAt = new Date();
+
+    // dispatch the order confirmed event
+    this.apply(new OrderConfirmedEvent(this._id.getValue(), this._customerId));
   }
 }
