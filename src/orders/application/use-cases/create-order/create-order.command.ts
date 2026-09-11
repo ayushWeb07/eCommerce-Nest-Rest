@@ -1,5 +1,3 @@
-import { ShippingAddressVo } from '../../../domain/value-objects/shipping-address.vo';
-
 export class CreateOrderItemDto {
   productId: string;
   productName: string;

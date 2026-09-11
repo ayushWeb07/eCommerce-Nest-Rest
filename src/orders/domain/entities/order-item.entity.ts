@@ -56,23 +56,27 @@ export class OrderItem extends AggregateRoot {
     // create the unit price vo
     const unitPriceVo = MoneyVo.create(unitPriceAmount, currency);
 
-    // create the discount vo
-    const discountVo: MoneyVo | null =
-      discountAmount !== null ? MoneyVo.create(discountAmount, currency) : null;
-
     // get the current date for created at and updated at dates
     const currentDate = new Date();
 
-    return new OrderItem({
+    // create the order item
+    const newOrderItem = new OrderItem({
       id: idVo,
       productId,
       productName,
       unitPrice: unitPriceVo,
       quantity,
-      discount: discountVo,
+      discount: null,
       createdAt: currentDate,
       updatedAt: currentDate,
     });
+
+    // apply the discount
+    if (discountAmount !== null) {
+      newOrderItem.applyDiscount(discountAmount);
+    }
+
+    return newOrderItem;
   }
 
   // to be used from database layer
