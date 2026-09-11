@@ -1,5 +1,4 @@
 import { PaymentIdVo } from '../value-objects/payment-id.vo';
-import { OrderIdVo } from '../../../orders/domain/value-objects/order-id.vo';
 import { PaymentStatusVo } from '../value-objects/payment-status.vo';
 import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
 import { AggregateRoot } from '@nestjs/cqrs';

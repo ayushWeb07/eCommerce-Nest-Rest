@@ -37,7 +37,7 @@ export const orderItems = pgTable('order-items', {
     .$onUpdate(() => new Date()),
 });
 
-export const ordersRelations = relations(orderItems, ({ one }) => ({
+export const orderItemsRelations = relations(orderItems, ({ one }) => ({
   order: one(orders, {
     fields: [orderItems.orderId],
     references: [orders.id],

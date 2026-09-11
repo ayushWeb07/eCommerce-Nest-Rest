@@ -3,12 +3,12 @@ import {
   ApplicationExceptionStatus,
 } from '../../../shared/domain/exceptions/application.exception';
 
-export type PaymentStatusValue = 'pending' | 'processing' | 'confirmed';
+export type PaymentStatusValue = 'pending' | 'processing' | 'succeeded';
 
 export const ValidPaymentStatuses: PaymentStatusValue[] = [
+  'pending',
   'processing',
-  'confirmed',
-  'confirmed',
+  'succeeded',
 ];
 
 export class PaymentStatusVo {
@@ -22,8 +22,8 @@ export class PaymentStatusVo {
     return new PaymentStatusVo('processing');
   }
 
-  static confirmed(): PaymentStatusVo {
-    return new PaymentStatusVo('confirmed');
+  static succeeded(): PaymentStatusVo {
+    return new PaymentStatusVo('succeeded');
   }
 
   static fromString(value: string): PaymentStatusVo {
