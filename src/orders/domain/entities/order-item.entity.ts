@@ -2,7 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { UniqueIdVo } from '../../../shared/domain/value-objects/unique-id.vo';
 import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
 import { AggregateRoot } from '@nestjs/cqrs';
-import { DomainException } from '../../../shared/domain/exceptions/domain.exception';
+import {
+  ApplicationException,
+  ApplicationExceptionStatus,
+} from '../../../shared/domain/exceptions/application.exception';
 
 export interface IOrderItemProps {
   id: UniqueIdVo;
@@ -124,8 +127,9 @@ export class OrderItem extends AggregateRoot {
   applyDiscount(discountAmount: number): void {
     // check if the discount is more than the unit price itself
     if (discountAmount > this._unitPrice.getAmount() * this._quantity) {
-      throw new DomainException(
+      throw new ApplicationException(
         `Discount amount cannot exceed the actual subtotal of the order item`,
+        ApplicationExceptionStatus.BAD_REQUEST,
       );
     }
 

@@ -1,4 +1,7 @@
-import { DomainException } from '../../../shared/domain/exceptions/domain.exception';
+import {
+  ApplicationException,
+  ApplicationExceptionStatus,
+} from '../../../shared/domain/exceptions/application.exception';
 
 export type OrderStatusValue =
   'pending' | 'cancelled' | 'confirmed' | 'shipped' | 'delivered';
@@ -47,7 +50,10 @@ export class OrderStatusVo {
 
   static fromString(value: string): OrderStatusVo {
     if (!ValidOrderStatuses.includes(value as OrderStatusValue)) {
-      throw new DomainException(`${value} is not a valid order status`);
+      throw new ApplicationException(
+        `${value} is not a valid order status`,
+        ApplicationExceptionStatus.BAD_REQUEST,
+      );
     }
 
     return new OrderStatusVo(value as OrderStatusValue);
@@ -94,8 +100,9 @@ export class OrderStatusVo {
 
   private transitionTo(target: OrderStatusValue): OrderStatusVo {
     if (!this.canTransitionTo(target)) {
-      throw new DomainException(
+      throw new ApplicationException(
         `Invalid order status transition from ${this.value} to ${target}`,
+        ApplicationExceptionStatus.BAD_REQUEST,
       );
     }
 

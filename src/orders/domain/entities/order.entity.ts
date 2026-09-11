@@ -9,6 +9,7 @@ import { OrderPlacedEvent } from '../events/order-placed.event';
 import { OrderConfirmedEvent } from '../events/order-confirmed.event';
 import { OrderShippedEvent } from '../events/order-shipped.event';
 import { OrderDeliveredEvent } from '../events/order-delivered.event';
+import { OrderCancelledEvent } from '../events/order-cancelled.event';
 
 export interface IOrderProps {
   id: OrderIdVo;
@@ -179,5 +180,14 @@ export class Order extends AggregateRoot {
 
     // dispatch the order delivered event
     this.apply(new OrderDeliveredEvent(this._id.getValue(), this._customerId));
+  }
+
+  // cancel the order
+  cancel(): void {
+    this._status = this._status.transitionToCancelled();
+    this._updatedAt = new Date();
+
+    // dispatch the order cancelled event
+    this.apply(new OrderCancelledEvent(this._id.getValue(), this._customerId));
   }
 }

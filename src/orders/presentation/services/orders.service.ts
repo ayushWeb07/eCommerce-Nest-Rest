@@ -14,6 +14,7 @@ import { ConfirmOrderCommand } from '../../application/use-cases/confirm-order/c
 import { ShipOrderDto } from '../dtos/ship-order.dto';
 import { ShipOrderCommand } from '../../application/use-cases/ship-order/ship-order.command';
 import { DeliverOrderCommand } from '../../application/use-cases/deliver-order/deliver-order.command';
+import { CancelOrderCommand } from '../../application/use-cases/cancel-order/cancel-order.command';
 
 @Injectable()
 export class OrdersService {
@@ -102,6 +103,13 @@ export class OrdersService {
     // execute the deliver order command
     await this.commandBus.execute(
       new DeliverOrderCommand(updateOrderStatusDto.id),
+    );
+  }
+
+  async cancelOrder(updateOrderStatusDto: UpdateOrderStatusDto): Promise<void> {
+    // execute the cancel order command
+    await this.commandBus.execute(
+      new CancelOrderCommand(updateOrderStatusDto.id),
     );
   }
 }

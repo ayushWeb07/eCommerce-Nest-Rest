@@ -22,6 +22,8 @@ import { OrderShippedHandler } from '../application/event-handlers/order-shipped
 import { ShipOrderHandler } from '../application/use-cases/ship-order/ship-order.handler';
 import { OrderDeliveredHandler } from '../application/event-handlers/order-delivered.handler';
 import { DeliverOrderHandler } from '../application/use-cases/deliver-order/deliver-order.handler';
+import { CancelOrderHandler } from '../application/use-cases/cancel-order/cancel-order.handler';
+import { OrderCancelledHandler } from '../application/event-handlers/order-cancelled.handler';
 
 @Module({
   imports: [CqrsModule, DrizzleModule, CustomersModule, ProductsModule],
@@ -48,11 +50,13 @@ import { DeliverOrderHandler } from '../application/use-cases/deliver-order/deli
     ConfirmOrderHandler,
     ShipOrderHandler,
     DeliverOrderHandler,
+    CancelOrderHandler,
 
     OrderPlacedHandler,
     OrderConfirmedHandler,
     OrderShippedHandler,
     OrderDeliveredHandler,
+    OrderCancelledHandler,
   ],
 })
 export class OrdersModule {}

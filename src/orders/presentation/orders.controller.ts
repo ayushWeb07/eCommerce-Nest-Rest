@@ -113,4 +113,16 @@ export class OrdersController {
       message: 'Successfully delivered the order',
     };
   }
+
+  @Patch('cancel/:id')
+  @HttpCode(HttpStatus.OK)
+  async cancelOrder(@Param() updateOrderStatusDto: UpdateOrderStatusDto) {
+    // call the cancel order service
+    await this.ordersService.cancelOrder(updateOrderStatusDto);
+
+    return {
+      success: true,
+      message: 'Successfully cancelled the order',
+    };
+  }
 }
