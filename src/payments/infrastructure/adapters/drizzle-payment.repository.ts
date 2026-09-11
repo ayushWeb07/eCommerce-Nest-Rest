@@ -1,14 +1,14 @@
-import type { PaymentRepository } from '../application/ports/payment.repository.port';
+import type { PaymentRepository } from '../../application/ports/payment.repository.port';
 import { Inject, Injectable } from '@nestjs/common';
-import { Payment } from '../domain/entities/payment.entity';
-import { SelectPaymentType } from '../../shared/infrastructure/database/drizzle/types/payment.type';
-import { PaymentIdVo } from '../domain/value-objects/payment-id.vo';
-import { PaymentStatusVo } from '../domain/value-objects/payment-status.vo';
-import { MoneyVo } from '../../shared/domain/value-objects/money.vo';
-import { DRIZZLE_PROVIDER_TOKEN } from '../../shared/infrastructure/database/drizzle/drizzle.constants';
+import { Payment } from '../../domain/entities/payment.entity';
+import { SelectPaymentType } from '../../../shared/infrastructure/database/drizzle/types/payment.type';
+import { PaymentIdVo } from '../../domain/value-objects/payment-id.vo';
+import { PaymentStatusVo } from '../../domain/value-objects/payment-status.vo';
+import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
+import { DRIZZLE_PROVIDER_TOKEN } from '../../../shared/infrastructure/database/drizzle/drizzle.constants';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import * as schema from '../../shared/infrastructure/database/drizzle/schemas';
-import { payments } from '../../shared/infrastructure/database/drizzle/schemas';
+import * as schema from '../../../shared/infrastructure/database/drizzle/schemas';
+import { payments } from '../../../shared/infrastructure/database/drizzle/schemas';
 import { eq } from 'drizzle-orm';
 
 @Injectable()

@@ -5,4 +5,5 @@ export interface IServerConfig {
   nodemailerSmtpUsername: string;
   nodemailerSmtpPassword: string;
   nodemailerSmtpFrom: string;
+  stripeTestKey: string;
 }

@@ -8,4 +8,5 @@ export default registerAs('server', () => ({
   nodemailerSmtpUsername: process.env.NODEMAILER_SMTP_USERNAME ?? '',
   nodemailerSmtpPassword: process.env.NODEMAILER_SMTP_PASSWORD ?? '',
   nodemailerSmtpFrom: process.env.NODEMAILER_SMTP_FROM ?? '',
+  stripeTestKey: process.env.STRIPE_TEST_KEY ?? '',
 }));

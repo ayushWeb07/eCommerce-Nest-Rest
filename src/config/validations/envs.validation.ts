@@ -11,4 +11,5 @@ export default Joi.object({
   NODEMAILER_SMTP_USERNAME: Joi.string().required(),
   NODEMAILER_SMTP_PASSWORD: Joi.string().required(),
   NODEMAILER_SMTP_FROM: Joi.string().email().required(),
+  STRIPE_TEST_KEY: Joi.string().required(),
 });
