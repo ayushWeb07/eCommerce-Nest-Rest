@@ -58,5 +58,6 @@ import { OrderCancelledHandler } from '../application/event-handlers/order-cance
     OrderDeliveredHandler,
     OrderCancelledHandler,
   ],
+  exports: [ORDER_REPOSITORY_TOKEN],
 })
 export class OrdersModule {}

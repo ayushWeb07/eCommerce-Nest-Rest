@@ -11,6 +11,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { ApplicationExceptionFilter } from './shared/infrastructure/filters/application-exception.filter';
 import { CustomersModule } from './customers/presentation/customers.module';
 import { OrdersModule } from './orders/presentation/orders.module';
+import { PaymentsModule } from './payments/presentation/payments.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { OrdersModule } from './orders/presentation/orders.module';
     ProductsModule,
     CustomersModule,
     OrdersModule,
+    PaymentsModule,
   ],
   providers: [
     {
