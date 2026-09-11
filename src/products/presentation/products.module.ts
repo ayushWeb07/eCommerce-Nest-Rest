@@ -53,5 +53,6 @@ import { MongoModule } from '../../shared/infrastructure/database/mongo/mongo.mo
     DeleteProductByIdHandler,
     UpdateProductHandler,
   ],
+  exports: [PRODUCT_REPOSITORY_TOKEN],
 })
 export class ProductsModule {}

@@ -10,6 +10,7 @@ import { ProductsModule } from './products/presentation/products.module';
 import { APP_FILTER } from '@nestjs/core';
 import { ApplicationExceptionFilter } from './shared/infrastructure/filters/application-exception.filter';
 import { CustomersModule } from './customers/presentation/customers.module';
+import { OrdersModule } from './orders/presentation/orders.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CustomersModule } from './customers/presentation/customers.module';
     DrizzleModule,
     ProductsModule,
     CustomersModule,
+    OrdersModule,
   ],
   providers: [
     {
