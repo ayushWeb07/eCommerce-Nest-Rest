@@ -106,4 +106,8 @@ export class Payment extends AggregateRoot {
   get updatedAt(): Date {
     return this._updatedAt;
   }
+
+  isSucceeded(): boolean {
+    return this._status === PaymentStatusVo.succeeded();
+  }
 }
