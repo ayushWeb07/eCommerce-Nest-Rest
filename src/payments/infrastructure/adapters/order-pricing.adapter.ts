@@ -32,7 +32,6 @@ class OrderPricingAdapter implements OrderPricingPort {
 
       items: fetchedOrder.items.map((item: OrderItem): OrderPricingItem => ({
         productName: item.productName,
-        productDescription: item.
         unitPrice: item.getSubtotal(),
         quantity: item.quantity,
       })),
