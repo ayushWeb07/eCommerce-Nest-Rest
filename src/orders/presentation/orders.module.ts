@@ -24,6 +24,7 @@ import { OrderDeliveredHandler } from '../application/event-handlers/order-deliv
 import { DeliverOrderHandler } from '../application/use-cases/deliver-order/deliver-order.handler';
 import { CancelOrderHandler } from '../application/use-cases/cancel-order/cancel-order.handler';
 import { OrderCancelledHandler } from '../application/event-handlers/order-cancelled.handler';
+import { OrderConfirmedSaga } from '../application/sagas/order-confirmed.saga';
 
 @Module({
   imports: [CqrsModule, DrizzleModule, CustomersModule, ProductsModule],
@@ -43,6 +44,8 @@ import { OrderCancelledHandler } from '../application/event-handlers/order-cance
     },
     OrdersService,
 
+    OrderConfirmedSaga,
+
     CreateOrderHandler,
     FindAllOrdersByCustomerIdHandler,
     FindOrderByIdHandler,
@@ -58,5 +61,6 @@ import { OrderCancelledHandler } from '../application/event-handlers/order-cance
     OrderDeliveredHandler,
     OrderCancelledHandler,
   ],
+  exports: [ORDER_REPOSITORY_TOKEN],
 })
 export class OrdersModule {}

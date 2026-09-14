@@ -48,6 +48,6 @@ export const orders = pgTable('orders', {
     .$onUpdate(() => new Date()),
 });
 
-export const orderItemsRelations = relations(orders, ({ many }) => ({
+export const ordersRelations = relations(orders, ({ many }) => ({
   orderItems: many(orderItems),
 }));

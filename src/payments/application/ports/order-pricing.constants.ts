@@ -1,0 +1,1 @@
+export const ORDER_PRICING_TOKEN = 'ORDER_PRICING';
