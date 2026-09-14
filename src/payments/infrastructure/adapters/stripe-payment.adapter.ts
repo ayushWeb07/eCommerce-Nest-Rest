@@ -49,7 +49,7 @@ class StripePaymentAdapter implements PaymentGateway {
         },
       },
 
-      quantity: item.quantity,
+      quantity: 1,
     }));
 
     // create the stripe checkout session

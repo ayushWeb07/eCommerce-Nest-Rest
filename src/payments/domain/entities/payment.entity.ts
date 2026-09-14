@@ -3,7 +3,11 @@ import { PaymentStatusVo } from '../value-objects/payment-status.vo';
 import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
 import { AggregateRoot } from '@nestjs/cqrs';
 import { v4 as uuidv4 } from 'uuid';
-import { ApplicationException } from '../../../shared/domain/exceptions/application.exception';
+import {
+  ApplicationException,
+  ApplicationExceptionStatus,
+} from '../../../shared/domain/exceptions/application.exception';
+import { PaymentCompletedEvent } from '../events/payment-completed.event';
 
 export interface IPaymentProps {
   id: PaymentIdVo;
@@ -109,11 +113,11 @@ export class Payment extends AggregateRoot {
   }
 
   isSucceeded(): boolean {
-    return this._status === PaymentStatusVo.succeeded();
+    return this._status.equals(PaymentStatusVo.succeeded());
   }
 
   isProcessing(): boolean {
-    return this._status === PaymentStatusVo.processing();
+    return this._status.equals(PaymentStatusVo.processing());
   }
 
   startCheckout(): void {
@@ -126,11 +130,21 @@ export class Payment extends AggregateRoot {
     if (!this.isProcessing()) {
       throw new ApplicationException(
         'Payment is not in a valid status in order to get completed',
+        ApplicationExceptionStatus.CONFLICT,
       );
     }
 
     this._transactionId = transactionId;
     this._status = PaymentStatusVo.succeeded();
     this._updatedAt = new Date();
+
+    // dispatch the payment completed event
+    this.apply(
+      new PaymentCompletedEvent(
+        this._id.getValue(),
+        this._orderId,
+        this._transactionId,
+      ),
+    );
   }
 }

@@ -100,8 +100,13 @@ export class CreatePaymentHandler implements ICommandHandler<CreatePaymentComman
       payment.startCheckout();
     }
 
-    // insert the payment into the database
-    await this.paymentRepository.savePayment(payment);
+    if (!existingPayment) {
+      // insert the payment into the database
+      await this.paymentRepository.savePayment(payment);
+    } else {
+      // update the payment into the database
+      await this.paymentRepository.updatePayment(payment);
+    }
 
     // finally dispatch all the outstanding events
     payment.commit();

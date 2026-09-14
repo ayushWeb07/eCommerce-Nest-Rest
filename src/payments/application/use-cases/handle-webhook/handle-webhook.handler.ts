@@ -68,6 +68,10 @@ export class HandleWebhookHandler implements ICommandHandler<HandleWebhookComman
             : session.payment_intent.id
           : null;
 
+        this.logger.log(
+          `~ PAYMENT ID -> ${paymentId} | TRANSACTION ID -> ${transactionId}`,
+        );
+
         if (paymentId && transactionId) {
           // fetch the payment from the db
           const existingPayment: Payment | null =
@@ -97,6 +101,7 @@ export class HandleWebhookHandler implements ICommandHandler<HandleWebhookComman
           // update the payment inside the database
           await this.paymentRepository.updatePayment(trackedPayment);
 
+          // dispatch all the outstanding events
           trackedPayment.commit();
         }
 
