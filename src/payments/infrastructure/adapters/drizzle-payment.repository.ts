@@ -17,7 +17,6 @@ class DrizzlePaymentRepository implements PaymentRepository {
     @Inject(DRIZZLE_PROVIDER_TOKEN)
     private readonly db: NodePgDatabase<typeof schema>,
   ) {}
-
   async savePayment(payment: Payment): Promise<void> {
     // convert the payment to drizzle schema
     const paymentDrizzleRow: SelectPaymentType =
@@ -39,6 +38,32 @@ class DrizzlePaymentRepository implements PaymentRepository {
     }
 
     return DrizzlePaymentRepository.toPaymentDomainEntity(existingPayment);
+  }
+
+  async findPaymentById(paymentId: PaymentIdVo): Promise<Payment | null> {
+    // query the payment from the database
+    const [existingPayment] = await this.db
+      .select()
+      .from(payments)
+      .where(eq(payments.id, paymentId.getValue()));
+
+    if (!existingPayment) {
+      return null;
+    }
+
+    return DrizzlePaymentRepository.toPaymentDomainEntity(existingPayment);
+  }
+
+  async updatePayment(payment: Payment): Promise<void> {
+    // convert the payment to drizzle
+    const paymentDrizzleRow: SelectPaymentType =
+      DrizzlePaymentRepository.toPaymentDrizzleSchema(payment);
+
+    // update the payment from the db
+    await this.db
+      .update(payments)
+      .set(paymentDrizzleRow)
+      .where(eq(payments.id, payment.id.getValue()));
   }
 
   private static toPaymentDrizzleSchema(payment: Payment): SelectPaymentType {

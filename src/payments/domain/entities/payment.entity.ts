@@ -112,8 +112,25 @@ export class Payment extends AggregateRoot {
     return this._status === PaymentStatusVo.succeeded();
   }
 
+  isProcessing(): boolean {
+    return this._status === PaymentStatusVo.processing();
+  }
+
   startCheckout(): void {
     this._status = PaymentStatusVo.processing();
+    this._updatedAt = new Date();
+  }
+
+  complete(transactionId: string): void {
+    // for the payment to transition to succeeded, it must be in the processing state
+    if (!this.isProcessing()) {
+      throw new ApplicationException(
+        'Payment is not in a valid status in order to get completed',
+      );
+    }
+
+    this._transactionId = transactionId;
+    this._status = PaymentStatusVo.succeeded();
     this._updatedAt = new Date();
   }
 }
