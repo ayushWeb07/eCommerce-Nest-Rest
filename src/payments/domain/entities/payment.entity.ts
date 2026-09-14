@@ -3,6 +3,7 @@ import { PaymentStatusVo } from '../value-objects/payment-status.vo';
 import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
 import { AggregateRoot } from '@nestjs/cqrs';
 import { v4 as uuidv4 } from 'uuid';
+import { ApplicationException } from '../../../shared/domain/exceptions/application.exception';
 
 export interface IPaymentProps {
   id: PaymentIdVo;
@@ -109,5 +110,10 @@ export class Payment extends AggregateRoot {
 
   isSucceeded(): boolean {
     return this._status === PaymentStatusVo.succeeded();
+  }
+
+  startCheckout(): void {
+    this._status = PaymentStatusVo.processing();
+    this._updatedAt = new Date();
   }
 }

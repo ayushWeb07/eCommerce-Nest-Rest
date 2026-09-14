@@ -8,11 +8,6 @@ import { ORDER_REPOSITORY_TOKEN } from '../../../orders/application/ports/order.
 import type { OrderRepository } from '../../../orders/application/ports/order.repository.port';
 import { OrderIdVo } from '../../../orders/domain/value-objects/order-id.vo';
 import { Order } from '../../../orders/domain/entities/order.entity';
-import {
-  ApplicationException,
-  ApplicationExceptionStatus,
-} from '../../../shared/domain/exceptions/application.exception';
-import { MoneyVo } from '../../../shared/domain/value-objects/money.vo';
 import { OrderItem } from '../../../orders/domain/entities/order-item.entity';
 
 @Injectable()
@@ -37,6 +32,7 @@ class OrderPricingAdapter implements OrderPricingPort {
 
       items: fetchedOrder.items.map((item: OrderItem): OrderPricingItem => ({
         productName: item.productName,
+        productDescription: item.
         unitPrice: item.getSubtotal(),
         quantity: item.quantity,
       })),

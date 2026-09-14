@@ -38,16 +38,14 @@ class StripePaymentAdapter implements PaymentGateway {
     metadata: CheckoutSessionMetadata,
     urls?: CheckoutUrls,
   ): Promise<CreateCheckoutSessionResult> {
-    // consturct the line items
+    // construct the line items
     const lineItems = items.map((item: CheckoutItem) => ({
       price_data: {
-        currency: item.price.getCurrency().toLowerCase(),
-        unit_amount: item.price.getAmount() * 100,
+        currency: item.unitPrice.getCurrency().toLowerCase(),
+        unit_amount: item.unitPrice.getAmount() * 100,
 
         product_data: {
           name: item.productName,
-          description: item.productDescription,
-          metadata: { sku: item.productSku.getValue() },
         },
       },
 

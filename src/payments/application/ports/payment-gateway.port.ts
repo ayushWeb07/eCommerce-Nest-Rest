@@ -20,10 +20,7 @@ export interface CheckoutUrls {
 
 export interface CheckoutItem {
   productName: string;
-  productDescription: string;
-  productSku: SkuVo;
-
-  price: MoneyVo;
+  unitPrice: MoneyVo;
   quantity: number;
 }
 
