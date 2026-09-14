@@ -6,4 +6,5 @@ export interface IServerConfig {
   nodemailerSmtpPassword: string;
   nodemailerSmtpFrom: string;
   stripeTestKey: string;
+  stripeWebhookSecret: string;
 }

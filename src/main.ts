@@ -5,7 +5,9 @@ import { ValidationPipe } from '@nestjs/common';
 import { ApplicationExceptionFilter } from './shared/infrastructure/filters/application-exception.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true,
+  });
 
   // use api prefix
   app.setGlobalPrefix('api/v1');

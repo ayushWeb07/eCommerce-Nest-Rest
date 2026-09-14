@@ -71,7 +71,7 @@ class StripePaymentAdapter implements PaymentGateway {
     };
   }
 
-  constructWebhookEvent(payload: Buffer, signature: string): any {
+  constructWebhookEvent(payload: Buffer, signature: string): Stripe.Event {
     // get the server config
     const serverConfig = this.configService.get<IServerConfig>('server')!;
 
@@ -79,7 +79,7 @@ class StripePaymentAdapter implements PaymentGateway {
     return this.stripe.webhooks.constructEvent(
       payload,
       signature,
-      serverConfig.stripeTestKey,
+      serverConfig.stripeWebhookSecret,
     );
   }
 }

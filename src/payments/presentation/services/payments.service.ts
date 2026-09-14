@@ -5,6 +5,7 @@ import {
   CreatePaymentCommand,
   CreatePaymentResponse,
 } from '../../application/use-cases/create-payment/create-payment.command';
+import { HandleWebhookCommand } from '../../application/use-cases/handle-webhook/handle-webhook.command';
 
 @Injectable()
 export class PaymentsService {
@@ -24,5 +25,10 @@ export class PaymentsService {
       );
 
     return paymentResponse;
+  }
+
+  async handleWebhook(payload: Buffer, signature: string): Promise<void> {
+    // execute the handle webhook command
+    await this.commandBus.execute(new HandleWebhookCommand(payload, signature));
   }
 }

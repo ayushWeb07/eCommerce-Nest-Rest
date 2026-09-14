@@ -11,6 +11,7 @@ import { ORDER_PRICING_TOKEN } from '../application/ports/order-pricing.constant
 import { PaymentsService } from './services/payments.service';
 import { CreatePaymentHandler } from '../application/use-cases/create-payment/create-payment.handler';
 import { PaymentsController } from './payments.controller';
+import { HandleWebhookHandler } from '../application/use-cases/handle-webhook/handle-webhook.handler';
 
 @Module({
   imports: [CqrsModule, DrizzleModule, OrdersModule],
@@ -32,6 +33,7 @@ import { PaymentsController } from './payments.controller';
     PaymentsService,
 
     CreatePaymentHandler,
+    HandleWebhookHandler,
   ],
 })
 export class PaymentsModule {}
