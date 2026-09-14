@@ -41,7 +41,7 @@ class StripePaymentAdapter implements PaymentGateway {
     // construct the line items
     const lineItems = items.map((item: CheckoutItem) => ({
       price_data: {
-        currency: item.unitPrice.getCurrency().toLowerCase(),
+        currency: 'inr',
         unit_amount: item.unitPrice.getAmount() * 100,
 
         product_data: {
@@ -55,6 +55,7 @@ class StripePaymentAdapter implements PaymentGateway {
     // create the stripe checkout session
     const newCheckoutSession = await this.stripe.checkout.sessions.create({
       mode: 'payment',
+      payment_method_types: ['card'],
       line_items: lineItems,
       success_url: urls?.successUrl,
       cancel_url: urls?.cancelUrl,

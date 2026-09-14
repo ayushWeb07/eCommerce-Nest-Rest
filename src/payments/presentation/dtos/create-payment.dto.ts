@@ -12,10 +12,10 @@ export class CreatePaymentDto {
   @IsUUID()
   orderId: string;
 
-  @IsOptional()
   @IsString()
-  @IsUrl()
-  successUrl?: string;
+  @IsNotEmpty()
+  @IsUrl({ require_tld: false })
+  successUrl: string;
 
   @IsOptional()
   @IsString()
